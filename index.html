@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UmutiyaX Projects</title>
+<link rel="icon" type="image/png" href="assets/umutiyaxprojects.png">
+<style>
+:root {
+  --purple-main: #9b59b6;
+  --purple-accent: #8e44ad;
+  --neon-blue: #3498db;
+  --green-online: #2ecc71;
+  --shadow-light: rgba(0, 0, 0, 0.15);
+  --shadow-dark: rgba(255, 255, 255, 0.05);
+  --bg-primary: #1e1e2f;
+  --bg-secondary: #27293d;
+  --text-color: #f0f6f6;
+  --card-border: #4a4d64;
+  --card-shadow: 0 10px 30px var(--shadow-dark);
+  --button-hover-bg: #8e44ad;
+  --button-discord-bg: #7289da;
+}
+
+[data-theme="light"] {
+  --bg-primary: #f0f2f5;
+  --bg-secondary: #ffffff;
+  --text-color: #1c1e21;
+  --card-border: #e0e0e0;
+  --card-shadow: 0 4px 15px var(--shadow-light);
+  --button-hover-bg: #a676c7;
+  --button-discord-bg: #7289da;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+  transition: background-color 0.5s, color 0.5s;
+}
+
+.container {
+  background-color: var(--bg-secondary);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: var(--card-shadow);
+  max-width: 900px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  border: 1px solid var(--card-border);
+  position: relative;
+  z-index: 1;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--card-border);
+  padding-bottom: 15px;
+}
+
+header h1 {
+  font-size: 2.8em;
+  color: var(--purple-main);
+  margin: 0;
+  text-shadow: 0 0 5px var(--purple-accent);
+}
+
+.theme-toggle {
+  cursor: pointer;
+  font-size: 1.5em;
+  transition: transform 0.3s, color 0.3s;
+}
+.theme-toggle:hover {
+  transform: scale(1.1);
+  color: var(--neon-blue);
+}
+
+.project-card {
+  padding: 30px;
+  border-radius: 15px;
+  display: flex;
+  gap: 25px;
+  align-items: flex-start;
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-secondary) 80%, var(--purple-main) 100%);
+  border: 1px solid var(--purple-main);
+  transition: transform 0.4s ease-out, box-shadow 0.4s ease-out;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  position: relative;
+  z-index: 1;
+}
+
+.project-card:hover {
+  transform: rotateY(5deg) rotateX(5deg) scale(1.01);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.img-container {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 4px solid var(--neon-blue);
+  padding: 5px;
+  background-color: var(--bg-primary);
+  box-shadow: 0 0 15px var(--neon-blue);
+  flex-shrink: 0;
+  overflow: visible;
+  transform: translateZ(30px);
+}
+
+.img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+  display: block;
+}
+
+.project-info {
+  flex-grow: 1;
+  transform: translateZ(25px);
+}
+
+.project-info h2 {
+  margin-top: 0;
+  color: var(--purple-main);
+  font-size: 2em;
+}
+
+.description {
+  margin: 15px 0;
+  line-height: 1.7;
+  font-size: 1.1em;
+  color: var(--text-color);
+}
+
+.actions {
+  margin-top: 20px;
+  position: relative;
+  z-index: 99;
+  pointer-events: auto;
+}
+
+.btn {
+  padding: 15px 30px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1em;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  font-weight: bold;
+  display: inline-block;
+  transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+  text-transform: uppercase;
+}
+
+.btn-discord {
+  background-color: var(--button-discord-bg);
+  color: white;
+  box-shadow: 0 5px 15px rgba(114, 137, 218, 0.4);
+}
+
+.btn-discord:hover {
+  background-color: var(--button-hover-bg);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(155, 89, 182, 0.6);
+}
+
+.status-section {
+  padding-top: 20px;
+  border-top: 2px dashed var(--card-border);
+  position: relative;
+  z-index: 1;
+}
+
+.status-section h3 {
+  color: var(--neon-blue);
+  text-align: center;
+}
+
+iframe {
+  width: 100%;
+  height: 250px;
+  border: 2px solid var(--neon-blue);
+  border-radius: 10px;
+  background-color: var(--bg-primary);
+  box-shadow: 0 0 10px var(--neon-blue);
+}
+
+@media (max-width: 768px) {
+  .project-card {
+    flex-direction: column;
+    text-align: center;
+  }
+  .img-container {
+    margin-bottom: 15px;
+  }
+  header {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+</style>
+</head>
+<body data-theme="dark">
+
+<div class="container">
+  <header>
+    <h1>UmutiyaX Projects</h1>
+    <div id="theme-toggle" class="theme-toggle"><span id="theme-icon">🔆</span></div>
+  </header>
+
+  <section class="project-card" id="project-card-umutiyax">
+    <div class="img-container">
+      <img src="assets/UmutiyaX AI2.png" alt="UmutiyAIX Simge">
+    </div>
+    <div class="project-info">
+      <h2>UmutiyAIX (UmutiyaX AI)</h2>
+      <p class="description">
+        Discord sunucularınızı daha eğlenceli hale getiren yapay zeka destekli hızlı bir chatbot! Resim oluşturabilir, görsel tanıyabilir, sesli konuşabilir (şimdilik metin kanalına ses dosyası atar) ve çok daha fazlasını yapabilir!
+      </p>
+      <div class="actions">
+        <a href="https://discord.com/oauth2/authorize?client_id=1424383863593107628" target="_blank" class="btn btn-discord">
+          Discord Sunucusuna Ekle!
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="status-section">
+    <h3>🤖 Aktiflik Durumu</h3>
+    <iframe src="aktiflik.html" frameborder="0" title="Aktiflik Durumu"></iframe>
+  </section>
+</div>
+
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const body = document.body;
+    const card = document.getElementById('project-card-umutiyax');
+    const iframe = document.querySelector('iframe'); // iFrame'i yakala
+
+    // TEMA DEĞİŞİMİNİ IFRAME'E BİLDİRME FONKSİYONU
+    function notifyIframe(theme) {
+        if (iframe && iframe.contentWindow) {
+            iframe.contentWindow.postMessage({
+                type: 'themeChange',
+                theme: theme
+            }, '*');
+        }
+    }
+
+    // Tema değiştirme fonksiyonu
+    function toggleTheme() {
+        const currentTheme = body.getAttribute('data-theme');
+        let newTheme;
+        
+        if (currentTheme === 'dark') {
+            newTheme = 'light';
+            body.setAttribute('data-theme', newTheme);
+            themeIcon.textContent = '🌙'; 
+        } else {
+            newTheme = 'dark';
+            body.setAttribute('data-theme', newTheme);
+            themeIcon.textContent = '🔆';
+        }
+        
+        // IFRAME'E BİLDİRİM GÖNDER
+        notifyIframe(newTheme);
+    }
+
+    // Başlangıçta iframe'e varsayılan temayı bildir
+    window.onload = () => {
+        // İlk yüklemede temayı ayarla ve iframe'e gönder
+        notifyIframe(body.getAttribute('data-theme'));
+    };
+
+    // Başlangıç ikonu ayarla (Sayfa yüklenirken bir kere çalışır)
+    if (body.getAttribute('data-theme') === 'dark') {
+        themeIcon.textContent = '🔆';
+    } else {
+         themeIcon.textContent = '🌙';
+    }
+
+    // Tıklama event'i
+    themeToggle.addEventListener('click', toggleTheme);
+
+    // 3D Tilt Efekti - Tıklanmayı engellememesi için daha dikkatli yazıldı
+    card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        // Mouse'un kart içindeki konumu (0'dan 1'e)
+        const x = (e.clientX - rect.left) / rect.width;
+        const y = (e.clientY - rect.top) / rect.height;
+
+        // Eğim dereceleri (-5'ten 5'e)
+        const tiltX = (y - 0.5) * 10; 
+        const tiltY = (0.5 - x) * 10; 
+
+        // Kartın transform'u
+        card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.01)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+        // Mouse ayrıldığında transform sıfırlandı
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+    });
+</script>
+
+</body>
+</html>
