@@ -6,27 +6,46 @@
     <title>Aktiflik Durumu</title>
     <style>
         :root {
-            /* Tema Değişkenleri */
-            --bg-primary: #1e1e2f; 
+            --bg-primary: #121220;
+            --bg-secondary: #1e1e2f;
             --text-color: #f0f6f6;
+            --text-secondary: #a0a0c0;
             --green-online: #2ecc71; 
             --red-offline: #e74c3c;
             --neon-blue: #3498db;
+            --purple-main: #9b59b6;
+            --glass-bg: rgba(30, 30, 47, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
 
-        /* Light Tema Desteği */
         [data-theme="light"] {
-            --bg-primary: #ffffff;
+            --bg-primary: #f0f2f5;
+            --bg-secondary: #ffffff;
             --text-color: #1c1e21;
+            --text-secondary: #555577;
+            --glass-bg: rgba(255, 255, 255, 0.8);
+            --glass-border: rgba(0, 0, 0, 0.08);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-primary); 
+            background: transparent;
             color: var(--text-color);
-            padding: 15px;
+            padding: 20px;
             margin: 0;
-            transition: background-color 0.5s, color 0.5s;
+            transition: all 0.5s ease;
+        }
+
+        .status-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
         }
 
         .status-list {
@@ -38,82 +57,130 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px 0;
+            padding: 12px 0;
             border-bottom: 1px dashed var(--neon-blue);
+            position: relative;
         }
 
         .status-item:last-child {
             border-bottom: none;
         }
 
+        .status-item::before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--neon-blue);
+            opacity: 0.5;
+        }
+
         .label {
             font-weight: 600;
             color: var(--neon-blue);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .value {
-            font-weight: 400;
+            font-weight: 500;
+            color: var(--text-secondary);
         }
 
         .indicator {
             display: inline-block;
-            width: 10px;
-            height: 10px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
-            margin-right: 8px;
+            margin-right: 10px;
+            position: relative;
+            box-shadow: 0 0 8px currentColor;
+        }
+
+        .indicator::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: currentColor;
+            opacity: 0.7;
         }
 
         .online {
             background-color: var(--green-online);
-            box-shadow: 0 0 5px var(--green-online);
+            box-shadow: 0 0 10px var(--green-online);
+            animation: pulse 1.5s infinite;
         }
 
         .offline {
             background-color: var(--red-offline);
-            box-shadow: 0 0 5px var(--red-offline);
+            box-shadow: 0 0 10px var(--red-offline);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.7; }
         }
 
         .fancy-text {
-            color: var(--purple-main, #9b59b6);
-            font-weight: bold;
+            color: var(--purple-main);
+            font-weight: 600;
+            position: relative;
+        }
+
+        .fancy-text::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--purple-main), transparent);
+            border-radius: 2px;
         }
     </style>
 </head>
 <body data-theme="dark">
-
-    <div class="status-list" id="status-list">
-        
-        <div class="status-item">
-            <span class="label">Aktiflik Durumu</span>
-            <span class="value" id="bot-status-display">
+    <div class="status-container">
+        <div class="status-list" id="status-list">
+            <div class="status-item">
+                <span class="label">Aktiflik Durumu</span>
+                <span class="value" id="bot-status-display">
+                    <span class="indicator online"></span>Aktif
                 </span>
-        </div>
-        
-        <div class="status-item">
-            <span class="label">Çalıştığı Yer</span>
-            <span class="value fancy-text">Umut'un Laptopu</span>
-        </div>
+            </div>
+            
+            <div class="status-item">
+                <span class="label">Çalıştığı Yer</span>
+                <span class="value fancy-text">Umut'un Laptopu</span>
+            </div>
 
-        <div class="status-item">
-            <span class="label">Yapay Zeka Modeli</span>
-            <span class="value fancy-text">Gemini 2.5 Flash</span>
-        </div>
+            <div class="status-item">
+                <span class="label">Yapay Zeka Modeli</span>
+                <span class="value fancy-text">Gemini 2.5 Flash</span>
+            </div>
 
-        <div class="status-item">
-            <span class="label">Çalışma Şekli</span>
-            <span class="value fancy-text">API (Cloud Tabanlı)</span>
+            <div class="status-item">
+                <span class="label">Çalışma Şekli</span>
+                <span class="value fancy-text">API (Cloud Tabanlı)</span>
+            </div>
         </div>
-
     </div>
 
     <script>
-        // 1 = Aktif, 0 = Pasif (BURAYI DEĞİŞTİRİYORSUN)
         const BOT_STATUS = 1; 
-
         const statusDisplay = document.getElementById('bot-status-display');
         const statusList = document.getElementById('status-list');
         
-        // Aktiflik Durumunu Uygulayan Fonksiyon
         function updateStatus() {
             const isOnline = BOT_STATUS === 1;
             if (isOnline) {
@@ -125,7 +192,6 @@
             }
         }
         
-        // TEMA DEĞİŞİKLİĞİNİ UYGULAYAN FONKSİYON
         function applyTheme(theme) {
             if (theme === 'light') {
                 document.body.setAttribute('data-theme', 'light');
@@ -134,25 +200,21 @@
             }
         }
         
-        // Ana sayfadan gelen mesajları dinle
         window.addEventListener('message', (event) => {
             if (event.data && event.data.type === 'themeChange') {
                 applyTheme(event.data.theme);
             }
         });
         
-        // İlk yüklemede ana sayfanın temasını kontrol et ve aktiflik durumunu ayarla
         window.onload = () => {
              updateStatus();
              try {
-                // Ana sayfa yüklenmişse temasını al
                 const parentTheme = window.parent.document.body.getAttribute('data-theme');
                 applyTheme(parentTheme);
             } catch (e) {
-                // Hata olursa varsayılan temada (dark) kalır
+                console.log("Parent theme not accessible");
             }
         };
-
     </script>
 </body>
 </html>
