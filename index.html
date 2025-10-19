@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UmutiyaX Projects</title>
+
+<meta property="og:title" content="UmutiyaX Projects">
+<meta property="og:description" content="Umut'un babapuro projeleri!">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://umutiya.netlify.app"> <meta property="og:image" content="https://umutiya.netlify.app/assets/umutiyaxprojects.png"> <meta name="theme-color" content="#9b59b6">
+
 <link rel="icon" type="image/png" href="assets/umutiyaxprojects.png">
 <style>
 :root {
@@ -179,33 +185,35 @@ header h1 {
   position: absolute;
   width: 100%;
   height: 100%;
-  transition: all 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+  transition: all 0.6s cubic-bezier(0.45, 0.05, 0.55, 0.95);
 }
 
-/* Sun Icon */
+/* Sun Icon - Dark Mode'da Görünür */
 .sun {
-  background: #f1c40f;
+  background: #f1c40f; 
   border-radius: 50%;
   box-shadow: 
-    0 -12px 0 2px #f39c12,
-    0 12px 0 2px #f39c12,
-    -12px 0 0 2px #f39c12,
-    12px 0 0 2px #f39c12,
-    -8px -8px 0 2px #f39c12,
-    8px -8px 0 2px #f39c12,
-    -8px 8px 0 2px #f39c12,
-    8px 8px 0 2px #f39c12;
+    0 -12px 0 0.5px #f39c12,
+    0 12px 0 0.5px #f39c12,
+    -12px 0 0 0.5px #f39c12,
+    12px 0 0 0.5px #f39c12,
+    -8px -8px 0 0.5px #f39c12,
+    8px -8px 0 0.5px #f39c12,
+    -8px 8px 0 0.5px #f39c12,
+    8px 8px 0 0.5px #f39c12;
+  transition: all 0.6s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  transform-origin: center;
 }
 
-/* Moon Icon */
+/* Moon Icon - Light Mode'da Görünür */
 .moon {
-  background: #f1c40f;
+  background: #f0f6f6; 
   border-radius: 50%;
-  clip-path: polygon(
-    0% 0%, 100% 0%, 100% 100%, 0% 100%,
-    20% 50%, 0% 0%
-  );
-  transform: rotate(0deg);
+  box-shadow: inset 7px -7px 0 1px #a0a0c0; 
+  transform: rotate(0deg) scale(0);
+  opacity: 0;
+  transition: all 0.6s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  transform-origin: center;
 }
 
 /* Morphing Transitions */
@@ -215,19 +223,22 @@ header h1 {
 }
 
 [data-theme="dark"] .moon {
-  transform: rotate(90deg) scale(0);
+  transform: rotate(45deg) scale(0); 
   opacity: 0;
 }
 
 [data-theme="light"] .sun {
-  transform: rotate(90deg) scale(0);
+  transform: rotate(90deg) scale(0); 
   opacity: 0;
 }
 
 [data-theme="light"] .moon {
   transform: rotate(0deg) scale(1);
   opacity: 1;
+  background: #1c1e21; 
+  box-shadow: inset 7px -7px 0 1px #555577; 
 }
+
 
 .project-card {
   padding: 35px;
@@ -243,6 +254,7 @@ header h1 {
   position: relative;
   overflow: hidden;
   box-shadow: var(--glass-shadow);
+  will-change: transform, box-shadow;
 }
 
 .project-card::before {
@@ -261,8 +273,7 @@ header h1 {
 }
 
 .project-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4); 
   border-color: var(--purple-main);
 }
 
@@ -607,12 +618,17 @@ iframe:hover {
 
         const tiltX = (y - 0.5) * 15; 
         const tiltY = (0.5 - x) * 15; 
+        
+        // Shadow Color Change
+        const shadowColor = body.getAttribute('data-theme') === 'dark' ? 'rgba(155, 89, 182, 0.6)' : 'rgba(155, 89, 182, 0.4)';
 
-        card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-5px)`;
+        card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.02)`;
+        card.style.boxShadow = `0 15px 45px ${shadowColor}, 0 0 10px rgba(255, 255, 255, 0.1)`;
     });
 
     card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+        card.style.boxShadow = 'var(--glass-shadow)'; // CSS'ten gelen default shadow
     });
 </script>
 
