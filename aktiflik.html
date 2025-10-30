@@ -151,27 +151,47 @@
 </head>
 <body data-theme="dark">
     <div class="status-container">
-        <div class="status-list" id="status-list">
-            <div class="status-item">
-                <span class="label">Aktiflik Durumu</span>
-                <span class="value" id="bot-status-display">
-                    <span class="indicator online"></span>Aktif
-                </span>
-            </div>
+<div class="status-list" id="status-list">
+    <div class="status-item">
+        <span class="label">Aktiflik Durumu</span>
+        <span class="value" id="bot-status-display">
+            <span class="indicator offline"></span>Offline
+        </span>
+    </div>
+</div>
+
+<style>
+    .indicator {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-right: 5px;
+    }
+
+    .online {
+        background-color: green;
+    }
+
+    .offline {
+        background-color: red;
+    }
+</style>
+
             
             <div class="status-item">
                 <span class="label">Çalıştığı Yer</span>
-                <span class="value fancy-text">Umut'un Laptopu</span>
+                <span class="value fancy-text">Aktif değil...</span>
             </div>
 
             <div class="status-item">
                 <span class="label">Yapay Zeka Modeli</span>
-                <span class="value fancy-text">Gemini 2.5 Flash</span>
+                <span class="value fancy-text">Aktif değil...</span>
             </div>
 
             <div class="status-item">
                 <span class="label">Çalışma Şekli</span>
-                <span class="value fancy-text">API (Cloud Tabanlı)</span>
+                <span class="value fancy-text">Aktif değil...</span>
             </div>
         </div>
     </div>
