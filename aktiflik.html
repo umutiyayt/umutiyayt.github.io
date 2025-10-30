@@ -151,90 +151,35 @@
 </head>
 <body data-theme="dark">
     <div class="status-container">
-<div class="status-list" id="status-list">
-    <div class="status-item">
-        <span class="label">Aktiflik Durumu</span>
-        <span class="value" id="bot-status-display">
-            <span class="indicator offline"></span>Offline
-        </span>
-    </div>
-</div>
-
-<style>
-    .indicator {
-        display: inline-block;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        margin-right: 5px;
-    }
-
-    .online {
-        background-color: green;
-    }
-
-    .offline {
-        background-color: red;
-    }
-</style>
-
+        <div class="status-list" id="status-list">
+            <div class="status-item">
+                <span class="label">Aktiflik Durumu</span>
+                <span class="value" id="bot-status-display">
+                    <span class="indicator offline"></span>Offline
+                </span>
+            </div>
             
             <div class="status-item">
                 <span class="label">Çalıştığı Yer</span>
-                <span class="value fancy-text">Aktif değil...</span>
+                <span class="value fancy-text">Offline</span>
             </div>
 
             <div class="status-item">
                 <span class="label">Yapay Zeka Modeli</span>
-                <span class="value fancy-text">Aktif değil...</span>
+                <span class="value fancy-text">Offline</span>
             </div>
 
             <div class="status-item">
                 <span class="label">Çalışma Şekli</span>
-                <span class="value fancy-text">Aktif değil...</span>
+                <span class="value fancy-text">Offline</span>
             </div>
         </div>
     </div>
 
     <script>
-        const BOT_STATUS = 1; 
+        // HARD CODED OFFLINE — ignore any JS attempts to change it
         const statusDisplay = document.getElementById('bot-status-display');
-        const statusList = document.getElementById('status-list');
-        
-        function updateStatus() {
-            const isOnline = BOT_STATUS === 1;
-            if (isOnline) {
-                statusDisplay.innerHTML = '<span class="indicator online"></span>Aktif';
-                statusList.style.opacity = '1'; 
-            } else {
-                statusDisplay.innerHTML = '<span class="indicator offline"></span>Pasif';
-                statusList.style.opacity = '0.6'; 
-            }
-        }
-        
-        function applyTheme(theme) {
-            if (theme === 'light') {
-                document.body.setAttribute('data-theme', 'light');
-            } else {
-                document.body.setAttribute('data-theme', 'dark');
-            }
-        }
-        
-        window.addEventListener('message', (event) => {
-            if (event.data && event.data.type === 'themeChange') {
-                applyTheme(event.data.theme);
-            }
-        });
-        
-        window.onload = () => {
-             updateStatus();
-             try {
-                const parentTheme = window.parent.document.body.getAttribute('data-theme');
-                applyTheme(parentTheme);
-            } catch (e) {
-                console.log("Parent theme not accessible");
-            }
-        };
+        statusDisplay.innerHTML = '<span class="indicator offline"></span>Offline';
     </script>
 </body>
 </html>
