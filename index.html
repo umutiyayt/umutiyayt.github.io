@@ -568,6 +568,25 @@ iframe:hover {
     </div>
   </section>
 
+  <!-- YENİ EKLENEN PROJE -->
+  <section class="project-card" id="project-card-gungame">
+    <div class="img-container">
+      <img src="assets/UmutiyaX AI2.png" alt="Test Gun Game Simge">
+    </div>
+    <div class="project-info">
+      <h2>Test Gun Game</h2>
+      <p class="description">
+        Bu heyecan verici silah oyununu test edin! Becerilerinizi gösterin ve en yüksek skoru elde etmeye çalışın.
+      </p>
+      <div class="actions">
+        <a href="game.html" class="btn">
+          Oyuna Git!
+        </a>
+      </div>
+    </div>
+  </section>
+  <!-- YENİ PROJE SONU -->
+
   <section class="status-section">
     <h3>🤖 Aktiflik Durumu</h3>
     <iframe src="aktiflik.html" frameborder="0" title="Aktiflik Durumu"></iframe>
@@ -577,7 +596,7 @@ iframe:hover {
 <script>
     const themeToggle = document.getElementById('theme-toggle');
     const body = document.body;
-    const card = document.getElementById('project-card-umutiyax');
+    const projectCards = document.querySelectorAll('.project-card'); // Değişiklik burada
     const iframe = document.querySelector('iframe');
 
     function notifyIframe(theme) {
@@ -610,25 +629,26 @@ iframe:hover {
 
     themeToggle.addEventListener('click', toggleTheme);
 
-    // Enhanced 3D Tilt Effect
-    card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width;
-        const y = (e.clientY - rect.top) / rect.height;
+    // Enhanced 3D Tilt Effect for all project cards
+    projectCards.forEach(card => { // Değişiklik burada: Her kart için döngü
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width;
+            const y = (e.clientY - rect.top) / rect.height;
 
-        const tiltX = (y - 0.5) * 15; 
-        const tiltY = (0.5 - x) * 15; 
-        
-        // Shadow Color Change
-        const shadowColor = body.getAttribute('data-theme') === 'dark' ? 'rgba(155, 89, 182, 0.6)' : 'rgba(155, 89, 182, 0.4)';
+            const tiltX = (y - 0.5) * 15; 
+            const tiltY = (0.5 - x) * 15; 
+            
+            const shadowColor = body.getAttribute('data-theme') === 'dark' ? 'rgba(155, 89, 182, 0.6)' : 'rgba(155, 89, 182, 0.4)';
 
-        card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.02)`;
-        card.style.boxShadow = `0 15px 45px ${shadowColor}, 0 0 10px rgba(255, 255, 255, 0.1)`;
-    });
+            card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.02)`;
+            card.style.boxShadow = `0 15px 45px ${shadowColor}, 0 0 10px rgba(255, 255, 255, 0.1)`;
+        });
 
-    card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
-        card.style.boxShadow = 'var(--glass-shadow)'; // CSS'ten gelen default shadow
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+            card.style.boxShadow = 'var(--glass-shadow)';
+        });
     });
 </script>
 
