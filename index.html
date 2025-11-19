@@ -567,11 +567,18 @@ iframe:hover {
       </div>
     </div>
   </section>
+  
+  <!-- AKTİFLİK DURUMU BURAYA TAŞINDI -->
+  <section class="status-section">
+    <h3>🤖 Aktiflik Durumu</h3>
+    <iframe src="aktiflik.html" frameborder="0" title="Aktiflik Durumu"></iframe>
+  </section>
 
-  <!-- YENİ EKLENEN PROJE -->
+  <!-- YENİ PROJE -->
   <section class="project-card" id="project-card-gungame">
     <div class="img-container">
-      <img src="assets/UmutiyaX AI2.png" alt="Test Gun Game Simge">
+      <!-- LOGO DEĞİŞTİRİLDİ -->
+      <img src="assets/gungame.png" alt="Test Gun Game Logosu">
     </div>
     <div class="project-info">
       <h2>Test Gun Game</h2>
@@ -585,18 +592,13 @@ iframe:hover {
       </div>
     </div>
   </section>
-  <!-- YENİ PROJE SONU -->
 
-  <section class="status-section">
-    <h3>🤖 Aktiflik Durumu</h3>
-    <iframe src="aktiflik.html" frameborder="0" title="Aktiflik Durumu"></iframe>
-  </section>
 </div>
 
 <script>
     const themeToggle = document.getElementById('theme-toggle');
     const body = document.body;
-    const projectCards = document.querySelectorAll('.project-card'); // Değişiklik burada
+    const projectCards = document.querySelectorAll('.project-card');
     const iframe = document.querySelector('iframe');
 
     function notifyIframe(theme) {
@@ -630,7 +632,7 @@ iframe:hover {
     themeToggle.addEventListener('click', toggleTheme);
 
     // Enhanced 3D Tilt Effect for all project cards
-    projectCards.forEach(card => { // Değişiklik burada: Her kart için döngü
+    projectCards.forEach(card => {
         card.addEventListener('mousemove', (e) => {
             const rect = card.getBoundingClientRect();
             const x = (e.clientX - rect.left) / rect.width;
