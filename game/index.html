@@ -3,7 +3,7 @@
 <head>
     <title>Advanced 3D Web Gun Shooter</title>
     <style>
-        body { margin: 0; }
+        body { margin: 0; overflow: hidden; }
         canvas { display: block; }
         #ammo-display {
             position: absolute;
@@ -12,27 +12,91 @@
             color: white;
             font-size: 24px;
             font-family: sans-serif;
+            text-shadow: 2px 2px 4px #000000;
+        }
+        #prompt-display {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 28px;
+            font-family: sans-serif;
+            text-shadow: 2px 2px 4px #000000;
+            display: none;
         }
     </style>
 </head>
 <body>
     <div id="ammo-display">Ammo: 30</div>
+    <div id="prompt-display">Press 'E' to enter Tank</div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        let scene, camera, renderer, player, gun, tank;
+        // This example uses a script from the official Three.js examples.
+        // Make sure to host this file or use a CDN that provides it.
+        // For this example, we'll use a rawgit URL.
+        const OBJLoader_URL = 'https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/loaders/OBJLoader.js';
+
+        let scene, camera, renderer, player, gun, tank, tankTurret;
         let enemies = [];
         let bullets = [];
+        let tankShells = [];
         let ammo = 30;
         const ammoDisplay = document.getElementById('ammo-display');
+        const promptDisplay = document.getElementById('prompt-display');
         const keys = {};
 
-        init();
-        animate();
+        let isInTank = false;
+        let enemyModel = null;
+        let textures = {};
+
+        const script = document.createElement('script');
+        script.src = OBJLoader_URL;
+        document.head.appendChild(script);
+        script.onload = () => {
+             loadAssets();
+        };
+
+
+        function loadAssets() {
+            const loadingManager = new THREE.LoadingManager(() => {
+                init();
+                animate();
+            });
+            const textureLoader = new THREE.TextureLoader(loadingManager);
+            const objLoader = new THREE.OBJLoader(loadingManager);
+
+            textures.grass = textureLoader.load('assets/grass.png');
+            textures.brown = textureLoader.load('assets/brown.png');
+            textures.bullet = textureLoader.load('assets/bullet.png');
+            textures.gun = textureLoader.load('assets/gun.png');
+            textures.tank = textureLoader.load('assets/tank.png');
+            textures.enemy = textureLoader.load('assets/enemy.png');
+            textures.sky = textureLoader.load('assets/sky.png');
+
+            objLoader.load('assets/enemy.obj', (obj) => {
+                const enemyMaterial = new THREE.MeshStandardMaterial({ map: textures.enemy });
+                obj.traverse(function (child) {
+                    if (child.isMesh) {
+                        child.material = enemyMaterial;
+                    }
+                });
+                obj.scale.set(0.5, 0.5, 0.5);
+                enemyModel = obj;
+            });
+        }
+
 
         function init() {
             // Scene
             scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x87ceeb);
+
+            // Skybox
+            const skyGeometry = new THREE.SphereGeometry(500, 60, 40);
+            skyGeometry.scale(-1, 1, 1);
+            const skyMaterial = new THREE.MeshBasicMaterial({ map: textures.sky });
+            const skybox = new THREE.Mesh(skyGeometry, skyMaterial);
+            scene.add(skybox);
 
             // Camera
             camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -41,27 +105,34 @@
             // Renderer
             renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.shadowMap.enabled = true;
             document.body.appendChild(renderer.domElement);
 
             // Lighting
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
             scene.add(ambientLight);
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-            directionalLight.position.set(0, 1, 0);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(10, 20, 5);
+            directionalLight.castShadow = true;
             scene.add(directionalLight);
 
             // Map
+            textures.grass.wrapS = THREE.RepeatWrapping;
+            textures.grass.wrapT = THREE.RepeatWrapping;
+            textures.grass.repeat.set(32, 32);
             const groundGeometry = new THREE.PlaneGeometry(100, 100);
-            const groundMaterial = new THREE.MeshBasicMaterial({ color: 0x228B22 });
+            const groundMaterial = new THREE.MeshStandardMaterial({ map: textures.grass });
             const ground = new THREE.Mesh(groundGeometry, groundMaterial);
             ground.rotation.x = -Math.PI / 2;
+            ground.receiveShadow = true;
             scene.add(ground);
 
             for (let i = 0; i < 20; i++) {
                 const boxGeometry = new THREE.BoxGeometry(2, 2, 2);
-                const boxMaterial = new THREE.MeshBasicMaterial({ color: 0x8B4513 });
+                const boxMaterial = new THREE.MeshStandardMaterial({ map: textures.brown });
                 const box = new THREE.Mesh(boxGeometry, boxMaterial);
                 box.position.set(Math.random() * 80 - 40, 1, Math.random() * 80 - 40);
+                box.castShadow = true;
                 scene.add(box);
             }
 
@@ -73,19 +144,22 @@
 
             // Gun
             const gunGeometry = new THREE.BoxGeometry(0.1, 0.2, 1);
-            const gunMaterial = new THREE.MeshBasicMaterial({ color: 0x444444 });
+            const gunMaterial = new THREE.MeshStandardMaterial({ map: textures.gun });
             gun = new THREE.Mesh(gunGeometry, gunMaterial);
             gun.position.set(0.3, -0.2, -0.5);
             camera.add(gun);
 
             // Tank
+            const tankMaterial = new THREE.MeshStandardMaterial({ map: textures.tank });
             const tankBodyGeometry = new THREE.BoxGeometry(4, 2, 6);
-            const tankBodyMaterial = new THREE.MeshBasicMaterial({ color: 0x556B2F });
-            const tankBody = new THREE.Mesh(tankBodyGeometry, tankBodyMaterial);
+            const tankBody = new THREE.Mesh(tankBodyGeometry, tankMaterial);
+            tankBody.castShadow = true;
+
             const tankTurretGeometry = new THREE.BoxGeometry(2, 1.5, 2);
-            const tankTurretMaterial = new THREE.MeshBasicMaterial({ color: 0x445522 });
-            const tankTurret = new THREE.Mesh(tankTurretGeometry, tankTurretMaterial);
-            tankTurret.position.y = 2;
+            tankTurret = new THREE.Mesh(tankTurretGeometry, tankMaterial);
+            tankTurret.position.y = 1.75;
+            tankTurret.castShadow = true;
+
             tank = new THREE.Object3D();
             tank.add(tankBody);
             tank.add(tankTurret);
@@ -94,12 +168,12 @@
 
             // Enemies
             for (let i = 0; i < 10; i++) {
-                const enemyGeometry = new THREE.SphereGeometry(1, 16, 16);
-                const enemyMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-                const enemy = new THREE.Mesh(enemyGeometry, enemyMaterial);
-                enemy.position.set(Math.random() * 80 - 40, 1, Math.random() * 80 - 40);
-                enemies.push(enemy);
-                scene.add(enemy);
+                if (enemyModel) {
+                    const enemy = enemyModel.clone();
+                    enemy.position.set(Math.random() * 80 - 40, 0, Math.random() * 80 - 40);
+                    enemies.push(enemy);
+                    scene.add(enemy);
+                }
             }
 
             // Controls
@@ -111,17 +185,40 @@
 
         function onKeyDown(event) {
             keys[event.key.toLowerCase()] = true;
+            if (event.key.toLowerCase() === 'e') {
+                toggleTankMode();
+            }
         }
 
         function onKeyUp(event) {
             keys[event.key.toLowerCase()] = false;
         }
+        
+        function toggleTankMode() {
+            const distanceToTank = player.position.distanceTo(tank.position);
+            if (!isInTank && distanceToTank < 5) {
+                isInTank = true;
+                gun.visible = false;
+                player.visible = false;
+            } else if (isInTank) {
+                isInTank = false;
+                gun.visible = true;
+                player.visible = true;
+                player.position.copy(tank.position).add(new THREE.Vector3(0, 1, 5));
+            }
+        }
+
 
         function onMouseMove(event) {
             if (document.pointerLockElement === document.body) {
-                player.rotation.y -= event.movementX * 0.002;
-                camera.rotation.x -= event.movementY * 0.002;
-                camera.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, camera.rotation.x));
+                if (isInTank) {
+                    tank.rotation.y -= event.movementX * 0.002;
+                    tankTurret.rotation.y -= event.movementX * 0.002; // This might need adjustment depending on desired turret control
+                } else {
+                    player.rotation.y -= event.movementX * 0.002;
+                    camera.rotation.x -= event.movementY * 0.002;
+                    camera.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, camera.rotation.x));
+                }
             }
         }
 
@@ -134,11 +231,22 @@
         }
 
         function shoot() {
-            if (ammo > 0) {
+            if (isInTank) {
+                const shellGeometry = new THREE.SphereGeometry(0.3, 16, 16);
+                const shellMaterial = new THREE.MeshStandardMaterial({color: 0x333333});
+                const shell = new THREE.Mesh(shellGeometry, shellMaterial);
+
+                const vector = new THREE.Vector3();
+                tankTurret.getWorldDirection(vector);
+                shell.position.copy(tankTurret.getWorldPosition(new THREE.Vector3())).add(vector.multiplyScalar(2));
+                shell.velocity = vector.multiplyScalar(30);
+                tankShells.push(shell);
+                scene.add(shell);
+            } else if (ammo > 0) {
                 ammo--;
                 updateAmmoDisplay();
                 const bulletGeometry = new THREE.SphereGeometry(0.1, 8, 8);
-                const bulletMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+                const bulletMaterial = new THREE.MeshStandardMaterial({ map: textures.bullet });
                 const bullet = new THREE.Mesh(bulletGeometry, bulletMaterial);
                 const vector = new THREE.Vector3();
                 camera.getWorldDirection(vector);
@@ -149,48 +257,88 @@
             }
         }
         
+        function createExplosion(position) {
+            const explosionGeometry = new THREE.SphereGeometry(5, 32, 32);
+            const explosionMaterial = new THREE.MeshBasicMaterial({ color: 0xffa500, transparent: true, opacity: 0.7 });
+            const explosion = new THREE.Mesh(explosionGeometry, explosionMaterial);
+            explosion.position.copy(position);
+            scene.add(explosion);
+
+            // Damage enemies in radius
+            enemies.forEach((enemy, enemyIndex) => {
+                if (enemy.position.distanceTo(position) < 5) {
+                    scene.remove(enemy);
+                    enemies.splice(enemyIndex, 1);
+                }
+            });
+            
+            // Shrink and remove explosion
+            let scale = 1;
+            function animateExplosion() {
+                scale -= 0.05;
+                if (scale <= 0) {
+                    scene.remove(explosion);
+                } else {
+                    explosion.scale.set(scale, scale, scale);
+                    requestAnimationFrame(animateExplosion);
+                }
+            }
+            animateExplosion();
+        }
+
         function updateAmmoDisplay() {
             ammoDisplay.textContent = `Ammo: ${ammo}`;
         }
-
-        function animate() {
-            requestAnimationFrame(animate);
-
+        
+        function handlePlayerControls() {
             const speed = 0.1;
             const velocity = new THREE.Vector3();
 
-            if (keys['w']) {
-                velocity.z -= 1;
-            }
-            if (keys['s']) {
-                velocity.z += 1;
-            }
-            if (keys['a']) {
-                velocity.x -= 1;
-            }
-            if (keys['d']) {
-                velocity.x += 1;
-            }
+            if (keys['w']) velocity.z -= 1;
+            if (keys['s']) velocity.z += 1;
+            if (keys['a']) velocity.x -= 1;
+            if (keys['d']) velocity.x += 1;
 
             velocity.normalize().multiplyScalar(speed);
             player.translateX(velocity.x);
             player.translateZ(velocity.z);
+        }
 
-            // Tank AI
-            tank.lookAt(player.position);
-            const distanceToPlayer = tank.position.distanceTo(player.position);
-            if (distanceToPlayer > 10) {
-                const direction = new THREE.Vector3().subVectors(player.position, tank.position).normalize();
-                tank.position.add(direction.multiplyScalar(0.05));
+        function handleTankControls() {
+            const moveSpeed = 0.15;
+            const rotSpeed = 0.02;
+
+            if (keys['w']) tank.translateZ(-moveSpeed);
+            if (keys['s']) tank.translateZ(moveSpeed);
+            if (keys['a']) tank.rotation.y += rotSpeed;
+            if (keys['d']) tank.rotation.y -= rotSpeed;
+            
+            // Update camera to follow tank
+            const offset = new THREE.Vector3(0, 5, 10);
+            const cameraPosition = offset.applyMatrix4(tank.matrixWorld);
+            camera.position.copy(cameraPosition);
+            camera.lookAt(tank.position);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            if(isInTank) {
+                handleTankControls();
+                promptDisplay.style.display = 'none';
+            } else {
+                handlePlayerControls();
+                const distanceToTank = player.position.distanceTo(tank.position);
+                promptDisplay.style.display = distanceToTank < 5 ? 'block' : 'none';
             }
-
 
             // Enemy AI
             enemies.forEach(enemy => {
-                enemy.lookAt(player.position);
-                const distance = enemy.position.distanceTo(player.position);
+                const target = isInTank ? tank.position : player.position;
+                enemy.lookAt(target);
+                const distance = enemy.position.distanceTo(target);
                 if(distance > 5) {
-                    const direction = new THREE.Vector3().subVectors(player.position, enemy.position).normalize();
+                    const direction = new THREE.Vector3().subVectors(target, enemy.position).normalize();
                     enemy.position.add(direction.multiplyScalar(0.02));
                 }
             });
@@ -221,22 +369,30 @@
                         scene.add(ammoDrop);
                     }
                 });
-
-                // Bullet-Tank Collision
-                if (bullet.position.distanceTo(tank.position) < 3) {
-                     scene.remove(bullet);
-                     bullets.splice(index, 1);
+            });
+            
+            // Tank Shells
+            tankShells.forEach((shell, index) => {
+                shell.position.add(shell.velocity.clone().multiplyScalar(0.016));
+                if (shell.position.y <= 0 || shell.position.distanceTo(tank.position) > 200) {
+                    createExplosion(shell.position);
+                    scene.remove(shell);
+                    tankShells.splice(index, 1);
                 }
             });
+
 
             // Player-Ammo Drop Collision
-            scene.children.forEach((object, index) => {
-                if (object.name === "ammo" && player.position.distanceTo(object.position) < 1.5) {
-                    ammo += 10;
-                    updateAmmoDisplay();
-                    scene.remove(object);
-                }
-            });
+            if (!isInTank) {
+                 scene.children.forEach((object) => {
+                    if (object.name === "ammo" && player.position.distanceTo(object.position) < 1.5) {
+                        ammo += 10;
+                        updateAmmoDisplay();
+                        scene.remove(object);
+                    }
+                });
+            }
+
 
             renderer.render(scene, camera);
         }
