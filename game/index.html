@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Advanced 3D Web Gun Shooter</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+        #ammo-display {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            color: white;
+            font-size: 24px;
+            font-family: sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div id="ammo-display">Ammo: 30</div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        let scene, camera, renderer, player, gun, tank;
+        let enemies = [];
+        let bullets = [];
+        let ammo = 30;
+        const ammoDisplay = document.getElementById('ammo-display');
+        const keys = {};
+
+        init();
+        animate();
+
+        function init() {
+            // Scene
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x87ceeb);
+
+            // Camera
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(0, 1.7, 0);
+
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+            directionalLight.position.set(0, 1, 0);
+            scene.add(directionalLight);
+
+            // Map
+            const groundGeometry = new THREE.PlaneGeometry(100, 100);
+            const groundMaterial = new THREE.MeshBasicMaterial({ color: 0x228B22 });
+            const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+            ground.rotation.x = -Math.PI / 2;
+            scene.add(ground);
+
+            for (let i = 0; i < 20; i++) {
+                const boxGeometry = new THREE.BoxGeometry(2, 2, 2);
+                const boxMaterial = new THREE.MeshBasicMaterial({ color: 0x8B4513 });
+                const box = new THREE.Mesh(boxGeometry, boxMaterial);
+                box.position.set(Math.random() * 80 - 40, 1, Math.random() * 80 - 40);
+                scene.add(box);
+            }
+
+            // Player
+            player = new THREE.Object3D();
+            player.position.set(0, 1, 5);
+            scene.add(player);
+            player.add(camera);
+
+            // Gun
+            const gunGeometry = new THREE.BoxGeometry(0.1, 0.2, 1);
+            const gunMaterial = new THREE.MeshBasicMaterial({ color: 0x444444 });
+            gun = new THREE.Mesh(gunGeometry, gunMaterial);
+            gun.position.set(0.3, -0.2, -0.5);
+            camera.add(gun);
+
+            // Tank
+            const tankBodyGeometry = new THREE.BoxGeometry(4, 2, 6);
+            const tankBodyMaterial = new THREE.MeshBasicMaterial({ color: 0x556B2F });
+            const tankBody = new THREE.Mesh(tankBodyGeometry, tankBodyMaterial);
+            const tankTurretGeometry = new THREE.BoxGeometry(2, 1.5, 2);
+            const tankTurretMaterial = new THREE.MeshBasicMaterial({ color: 0x445522 });
+            const tankTurret = new THREE.Mesh(tankTurretGeometry, tankTurretMaterial);
+            tankTurret.position.y = 2;
+            tank = new THREE.Object3D();
+            tank.add(tankBody);
+            tank.add(tankTurret);
+            tank.position.set(20, 1, -20);
+            scene.add(tank);
+
+            // Enemies
+            for (let i = 0; i < 10; i++) {
+                const enemyGeometry = new THREE.SphereGeometry(1, 16, 16);
+                const enemyMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+                const enemy = new THREE.Mesh(enemyGeometry, enemyMaterial);
+                enemy.position.set(Math.random() * 80 - 40, 1, Math.random() * 80 - 40);
+                enemies.push(enemy);
+                scene.add(enemy);
+            }
+
+            // Controls
+            document.addEventListener('keydown', onKeyDown);
+            document.addEventListener('keyup', onKeyUp);
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mousedown', onMouseDown);
+        }
+
+        function onKeyDown(event) {
+            keys[event.key.toLowerCase()] = true;
+        }
+
+        function onKeyUp(event) {
+            keys[event.key.toLowerCase()] = false;
+        }
+
+        function onMouseMove(event) {
+            if (document.pointerLockElement === document.body) {
+                player.rotation.y -= event.movementX * 0.002;
+                camera.rotation.x -= event.movementY * 0.002;
+                camera.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, camera.rotation.x));
+            }
+        }
+
+        function onMouseDown(event) {
+            if (document.pointerLockElement !== document.body) {
+                document.body.requestPointerLock();
+            } else {
+                shoot();
+            }
+        }
+
+        function shoot() {
+            if (ammo > 0) {
+                ammo--;
+                updateAmmoDisplay();
+                const bulletGeometry = new THREE.SphereGeometry(0.1, 8, 8);
+                const bulletMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+                const bullet = new THREE.Mesh(bulletGeometry, bulletMaterial);
+                const vector = new THREE.Vector3();
+                camera.getWorldDirection(vector);
+                bullet.position.copy(player.position).add(vector.multiplyScalar(1));
+                bullet.velocity = vector.multiplyScalar(50);
+                bullets.push(bullet);
+                scene.add(bullet);
+            }
+        }
+        
+        function updateAmmoDisplay() {
+            ammoDisplay.textContent = `Ammo: ${ammo}`;
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const speed = 0.1;
+            const velocity = new THREE.Vector3();
+
+            if (keys['w']) {
+                velocity.z -= 1;
+            }
+            if (keys['s']) {
+                velocity.z += 1;
+            }
+            if (keys['a']) {
+                velocity.x -= 1;
+            }
+            if (keys['d']) {
+                velocity.x += 1;
+            }
+
+            velocity.normalize().multiplyScalar(speed);
+            player.translateX(velocity.x);
+            player.translateZ(velocity.z);
+
+            // Tank AI
+            tank.lookAt(player.position);
+            const distanceToPlayer = tank.position.distanceTo(player.position);
+            if (distanceToPlayer > 10) {
+                const direction = new THREE.Vector3().subVectors(player.position, tank.position).normalize();
+                tank.position.add(direction.multiplyScalar(0.05));
+            }
+
+
+            // Enemy AI
+            enemies.forEach(enemy => {
+                enemy.lookAt(player.position);
+                const distance = enemy.position.distanceTo(player.position);
+                if(distance > 5) {
+                    const direction = new THREE.Vector3().subVectors(player.position, enemy.position).normalize();
+                    enemy.position.add(direction.multiplyScalar(0.02));
+                }
+            });
+
+            // Bullets
+            bullets.forEach((bullet, index) => {
+                bullet.position.add(bullet.velocity.clone().multiplyScalar(0.016));
+
+                if (bullet.position.distanceTo(player.position) > 100) {
+                    scene.remove(bullet);
+                    bullets.splice(index, 1);
+                }
+
+                // Bullet-Enemy Collision
+                enemies.forEach((enemy, enemyIndex) => {
+                    if (bullet.position.distanceTo(enemy.position) < 1) {
+                        scene.remove(enemy);
+                        enemies.splice(enemyIndex, 1);
+                        scene.remove(bullet);
+                        bullets.splice(index, 1);
+                        
+                        // Drop ammo
+                        const ammoDropGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+                        const ammoDropMaterial = new THREE.MeshBasicMaterial({color: 0x00ff00});
+                        const ammoDrop = new THREE.Mesh(ammoDropGeometry, ammoDropMaterial);
+                        ammoDrop.name = "ammo";
+                        ammoDrop.position.copy(enemy.position);
+                        scene.add(ammoDrop);
+                    }
+                });
+
+                // Bullet-Tank Collision
+                if (bullet.position.distanceTo(tank.position) < 3) {
+                     scene.remove(bullet);
+                     bullets.splice(index, 1);
+                }
+            });
+
+            // Player-Ammo Drop Collision
+            scene.children.forEach((object, index) => {
+                if (object.name === "ammo" && player.position.distanceTo(object.position) < 1.5) {
+                    ammo += 10;
+                    updateAmmoDisplay();
+                    scene.remove(object);
+                }
+            });
+
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
