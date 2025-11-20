@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
@@ -13,645 +14,628 @@
 <link rel="icon" type="image/png" href="assets/umutiyaxprojects.png">
 <style>
 :root {
-  --purple-main: #9b59b6;
-  --purple-accent: #8e44ad;
-  --neon-blue: #3498db;
-  --green-online: #2ecc71;
-  --red-offline: #e74c3c;
-  --shadow-light: rgba(0, 0, 0, 0.15);
-  --shadow-dark: rgba(0, 0, 0, 0.3);
-  --bg-primary: #121220;
-  --bg-secondary: #1e1e2f;
-  --bg-card: rgba(30, 30, 47, 0.6);
-  --text-color: #f0f6f6;
-  --text-secondary: #a0a0c0;
-  --card-border: rgba(155, 89, 182, 0.3);
-  --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  --button-hover-bg: #8e44ad;
-  --button-discord-bg: #7289da;
-  --gradient-start: linear-gradient(135deg, #9b59b6, #3498db);
-  --glass-bg: rgba(30, 30, 47, 0.6);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+--purple-main: #9b59b6;
+--purple-accent: #8e44ad;
+--neon-blue: #3498db;
+--green-online: #2ecc71;
+--red-offline: #e74c3c;
+--shadow-light: rgba(0, 0, 0, 0.15);
+--shadow-dark: rgba(0, 0, 0, 0.3);
+--bg-primary: #121220;
+--bg-secondary: #1e1e2f;
+--bg-card: rgba(30, 30, 47, 0.6);
+--text-color: #f0f6f6;
+--text-secondary: #a0a0c0;
+--card-border: rgba(155, 89, 182, 0.3);
+--card-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+--button-hover-bg: #8e44ad;
+--button-discord-bg: #7289da;
+--gradient-start: linear-gradient(135deg, #9b59b6, #3498db);
+--glass-bg: rgba(30, 30, 47, 0.6);
+--glass-border: rgba(255, 255, 255, 0.08);
+--glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
+
 
 [data-theme="light"] {
-  --bg-primary: #f0f2f5;
-  --bg-secondary: #ffffff;
-  --bg-card: rgba(255, 255, 255, 0.8);
-  --text-color: #1c1e21;
-  --text-secondary: #555577;
-  --card-border: rgba(155, 89, 182, 0.2);
-  --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  --button-hover-bg: #a676c7;
-  --button-discord-bg: #7289da;
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(0, 0, 0, 0.08);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+--bg-primary: #f0f2f5;
+--bg-secondary: #ffffff;
+--bg-card: rgba(255, 255, 255, 0.8);
+--text-color: #1c1e21;
+--text-secondary: #555577;
+--card-border: rgba(155, 89, 182, 0.2);
+--card-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+--button-hover-bg: #a676c7;
+--button-discord-bg: #7289da;
+--glass-bg: rgba(255, 255, 255, 0.7);
+--glass-border: rgba(0, 0, 0, 0.08);
+--glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-* {
-  box-sizing: border-box;
+{
+box-sizing: border-box;
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
-  background: var(--bg-primary);
-  color: var(--text-color);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  margin: 0;
-  padding: 20px;
-  transition: background-color 0.5s, color 0.5s;
-  position: relative;
-  overflow-x: hidden;
+font-family: 'Poppins', sans-serif;
+background: var(--bg-primary);
+color: var(--text-color);
+display: flex;
+justify-content: center;
+align-items: center;
+min-height: 100vh;
+margin: 0;
+padding: 20px;
+transition: background-color 0.5s, color 0.5s;
+position: relative;
+overflow-x: hidden;
 }
 
 body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at 10% 20%, rgba(155, 89, 182, 0.1) 0%, transparent 20%),
-              radial-gradient(circle at 90% 80%, rgba(52, 152, 219, 0.1) 0%, transparent 20%);
-  z-index: -1;
+content: '';
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: radial-gradient(circle at 10% 20%, rgba(155, 89, 182, 0.1) 0%, transparent 20%),
+radial-gradient(circle at 90% 80%, rgba(52, 152, 219, 0.1) 0%, transparent 20%);
+z-index: -1;
 }
 
 .container {
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  padding: 40px;
-  border-radius: 25px;
-  box-shadow: var(--glass-shadow);
-  max-width: 950px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 35px;
-  border: 1px solid var(--glass-border);
-  position: relative;
-  overflow: hidden;
-  transition: all 0.4s ease;
+background: var(--glass-bg);
+backdrop-filter: blur(12px);
+-webkit-backdrop-filter: blur(12px);
+padding: 40px;
+border-radius: 25px;
+box-shadow: var(--glass-shadow);
+max-width: 950px;
+width: 100%;
+display: flex;
+flex-direction: column;
+gap: 35px;
+border: 1px solid var(--glass-border);
+position: relative;
+overflow: hidden;
+transition: all 0.4s ease;
 }
 
 .container::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    45deg,
-    transparent,
-    rgba(155, 89, 182, 0.1),
-    transparent
-  );
-  transform: rotate(45deg);
-  z-index: -1;
-  animation: shine 8s infinite;
+content: '';
+position: absolute;
+top: -50%;
+left: -50%;
+width: 200%;
+height: 200%;
+background: linear-gradient(
+45deg,
+transparent,
+rgba(155, 89, 182, 0.1),
+transparent
+);
+transform: rotate(45deg);
+z-index: -1;
+animation: shine 8s infinite;
 }
 
 @keyframes shine {
-  0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-  100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
 }
 
 header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 20px;
-  position: relative;
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding-bottom: 20px;
+position: relative;
 }
 
 header::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--purple-main), transparent);
+content: '';
+position: absolute;
+bottom: 0;
+left: 0;
+width: 100%;
+height: 2px;
+background: linear-gradient(90deg, transparent, var(--purple-main), transparent);
 }
 
 header h1 {
-  font-size: 3em;
-  color: var(--purple-main);
-  margin: 0;
-  background: var(--gradient-start);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow: 0 0 15px rgba(155, 89, 182, 0.3);
-  letter-spacing: -0.5px;
+font-size: 3em;
+color: var(--purple-main);
+margin: 0;
+background: var(--gradient-start);
+-webkit-background-clip: text;
+background-clip: text;
+color: transparent;
+text-shadow: 0 0 15px rgba(155, 89, 182, 0.3);
+letter-spacing: -0.5px;
 }
 
 .theme-toggle {
-  cursor: pointer;
-  font-size: 1.8em;
-  transition: all 0.3s ease;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
-  position: relative;
-  overflow: hidden;
+cursor: pointer;
+font-size: 1.8em;
+transition: all 0.3s ease;
+width: 50px;
+height: 50px;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 50%;
+background: var(--glass-bg);
+border: 1px solid var(--glass-border);
+box-shadow: var(--glass-shadow);
+position: relative;
+overflow: hidden;
 }
 
 .theme-toggle:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 20px rgba(155, 89, 182, 0.5);
+transform: scale(1.1);
+box-shadow: 0 0 20px rgba(155, 89, 182, 0.5);
 }
 
 /* Morphing Theme Toggle */
 .theme-icon-container {
-  position: relative;
-  width: 24px;
-  height: 24px;
+position: relative;
+width: 24px;
+height: 24px;
 }
 
 .morph-icon {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  transition: all 0.6s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+position: absolute;
+width: 100%;
+height: 100%;
+transition: all 0.6s cubic-bezier(0.45, 0.05, 0.55, 0.95);
 }
 
 /* Sun Icon - Dark Mode'da Görünür */
 .sun {
-  background: #f1c40f; 
-  border-radius: 50%;
-  box-shadow: 
-    0 -12px 0 0.5px #f39c12,
-    0 12px 0 0.5px #f39c12,
-    -12px 0 0 0.5px #f39c12,
-    12px 0 0 0.5px #f39c12,
-    -8px -8px 0 0.5px #f39c12,
-    8px -8px 0 0.5px #f39c12,
-    -8px 8px 0 0.5px #f39c12,
-    8px 8px 0 0.5px #f39c12;
-  transition: all 0.6s cubic-bezier(0.45, 0.05, 0.55, 0.95);
-  transform-origin: center;
+background: #f1c40f;
+border-radius: 50%;
+box-shadow:
+0 -12px 0 0.5px #f39c12,
+0 12px 0 0.5px #f39c12,
+-12px 0 0 0.5px #f39c12,
+12px 0 0 0.5px #f39c12,
+-8px -8px 0 0.5px #f39c12,
+8px -8px 0 0.5px #f39c12,
+-8px 8px 0 0.5px #f39c12,
+8px 8px 0 0.5px #f39c12;
+transition: all 0.6s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+transform-origin: center;
 }
 
 /* Moon Icon - Light Mode'da Görünür */
 .moon {
-  background: #f0f6f6; 
-  border-radius: 50%;
-  box-shadow: inset 7px -7px 0 1px #a0a0c0; 
-  transform: rotate(0deg) scale(0);
-  opacity: 0;
-  transition: all 0.6s cubic-bezier(0.45, 0.05, 0.55, 0.95);
-  transform-origin: center;
+background: #f0f6f6;
+border-radius: 50%;
+box-shadow: inset 7px -7px 0 1px #a0a0c0;
+transform: rotate(0deg) scale(0);
+opacity: 0;
+transition: all 0.6s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+transform-origin: center;
 }
 
 /* Morphing Transitions */
 [data-theme="dark"] .sun {
-  transform: rotate(0deg) scale(1);
-  opacity: 1;
+transform: rotate(0deg) scale(1);
+opacity: 1;
 }
 
 [data-theme="dark"] .moon {
-  transform: rotate(45deg) scale(0); 
-  opacity: 0;
+transform: rotate(45deg) scale(0);
+opacity: 0;
 }
 
 [data-theme="light"] .sun {
-  transform: rotate(90deg) scale(0); 
-  opacity: 0;
+transform: rotate(90deg) scale(0);
+opacity: 0;
 }
 
 [data-theme="light"] .moon {
-  transform: rotate(0deg) scale(1);
-  opacity: 1;
-  background: #1c1e21; 
-  box-shadow: inset 7px -7px 0 1px #555577; 
+transform: rotate(0deg) scale(1);
+opacity: 1;
+background: #1c1e21;
+box-shadow: inset 7px -7px 0 1px #555577;
 }
 
-
 .project-card {
-  padding: 35px;
-  border-radius: 20px;
-  display: flex;
-  gap: 30px;
-  align-items: center;
-  background: var(--glass-bg);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid var(--glass-border);
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  position: relative;
-  overflow: hidden;
-  box-shadow: var(--glass-shadow);
-  will-change: transform, box-shadow;
+padding: 35px;
+border-radius: 20px;
+display: flex;
+gap: 30px;
+align-items: center;
+background: var(--glass-bg);
+backdrop-filter: blur(10px);
+-webkit-backdrop-filter: blur(10px);
+border: 1px solid var(--glass-border);
+transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+position: relative;
+overflow: hidden;
+box-shadow: var(--glass-shadow);
+will-change: transform, box-shadow;
 }
 
 .project-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, 
-    rgba(155, 89, 182, 0.1) 0%, 
-    transparent 30%, 
-    rgba(52, 152, 219, 0.1) 100%);
-  z-index: -1;
-  opacity: 0.7;
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: linear-gradient(135deg,
+rgba(155, 89, 182, 0.1) 0%,
+transparent 30%,
+rgba(52, 152, 219, 0.1) 100%);
+z-index: -1;
+opacity: 0.7;
 }
 
 .project-card:hover {
-  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4); 
-  border-color: var(--purple-main);
+box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4);
+border-color: var(--purple-main);
 }
 
 .img-container {
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  padding: 8px;
-  background: var(--glass-bg);
-  border: 2px solid var(--neon-blue);
-  box-shadow: 0 0 20px rgba(52, 152, 219, 0.4);
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
+width: 140px;
+height: 140px;
+border-radius: 50%;
+padding: 8px;
+background: var(--glass-bg);
+border: 2px solid var(--neon-blue);
+box-shadow: 0 0 20px rgba(52, 152, 219, 0.4);
+flex-shrink: 0;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: all 0.3s ease;
+position: relative;
+overflow: hidden;
 }
 
 .img-container::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    45deg,
-    transparent,
-    rgba(255, 255, 255, 0.2),
-    transparent
-  );
-  transform: rotate(45deg);
-  z-index: -1;
-  animation: shine 3s infinite;
+content: '';
+position: absolute;
+top: -50%;
+left: -50%;
+width: 200%;
+height: 200%;
+background: linear-gradient(
+45deg,
+transparent,
+rgba(255, 255, 255, 0.2),
+transparent
+);
+transform: rotate(45deg);
+z-index: -1;
+animation: shine 3s infinite;
 }
 
 .img-container:hover {
-  transform: scale(1.05) rotate(5deg);
-  box-shadow: 0 0 30px rgba(52, 152, 219, 0.6);
-  border-color: var(--purple-main);
+transform: scale(1.05) rotate(5deg);
+box-shadow: 0 0 30px rgba(52, 152, 219, 0.6);
+border-color: var(--purple-main);
 }
 
 .img-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  border-radius: 50%;
-  display: block;
+width: 100%;
+height: 100%;
+object-fit: contain;
+border-radius: 50%;
+display: block;
 }
 
 .project-info {
-  flex-grow: 1;
+flex-grow: 1;
 }
 
 .project-info h2 {
-  margin-top: 0;
-  color: var(--purple-main);
-  font-size: 2.3em;
-  margin-bottom: 15px;
-  position: relative;
-  display: inline-block;
+margin-top: 0;
+color: var(--purple-main);
+font-size: 2.3em;
+margin-bottom: 15px;
+position: relative;
+display: inline-block;
 }
 
 .project-info h2::after {
-  content: '';
-  position: absolute;
-  bottom: -5px;
-  left: 0;
-  width: 50px;
-  height: 3px;
-  background: var(--neon-blue);
-  border-radius: 3px;
+content: '';
+position: absolute;
+bottom: -5px;
+left: 0;
+width: 50px;
+height: 3px;
+background: var(--neon-blue);
+border-radius: 3px;
 }
 
 .description {
-  margin: 20px 0;
-  line-height: 1.8;
-  font-size: 1.15em;
-  color: var(--text-secondary);
-  position: relative;
+margin: 20px 0;
+line-height: 1.8;
+font-size: 1.15em;
+color: var(--text-secondary);
+position: relative;
 }
 
 .description::before {
-  content: '"';
-  position: absolute;
-  top: -20px;
-  left: -15px;
-  font-size: 3em;
-  color: var(--purple-main);
-  opacity: 0.2;
-  font-family: serif;
+content: '"';
+position: absolute;
+top: -20px;
+left: -15px;
+font-size: 3em;
+color: var(--purple-main);
+opacity: 0.2;
+font-family: serif;
 }
 
 .actions {
-  margin-top: 25px;
+margin-top: 25px;
 }
 
 .btn {
-  padding: 16px 35px;
-  border: none;
-  border-radius: 12px;
-  font-size: 1.15em;
-  cursor: pointer;
-  text-decoration: none;
-  text-align: center;
-  font-weight: 600;
-  display: inline-block;
-  transition: all 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-  background: var(--gradient-start);
-  color: white;
-  box-shadow: 0 5px 15px rgba(155, 89, 182, 0.4);
+padding: 16px 35px;
+border: none;
+border-radius: 12px;
+font-size: 1.15em;
+cursor: pointer;
+text-decoration: none;
+text-align: center;
+font-weight: 600;
+display: inline-block;
+transition: all 0.3s ease;
+text-transform: uppercase;
+letter-spacing: 1px;
+position: relative;
+overflow: hidden;
+z-index: 1;
+background: var(--gradient-start);
+color: white;
+box-shadow: 0 5px 15px rgba(155, 89, 182, 0.4);
 }
 
 .btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, 
-    transparent, 
-    rgba(255, 255, 255, 0.2), 
-    transparent);
-  transform: translateX(-100%);
-  transition: transform 0.6s ease;
-  z-index: -1;
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: linear-gradient(90deg,
+transparent,
+rgba(255, 255, 255, 0.2),
+transparent);
+transform: translateX(-100%);
+transition: transform 0.6s ease;
+z-index: -1;
 }
 
 .btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(155, 89, 182, 0.6);
+transform: translateY(-3px);
+box-shadow: 0 10px 25px rgba(155, 89, 182, 0.6);
 }
 
 .btn:hover::before {
-  transform: translateX(100%);
+transform: translateX(100%);
 }
 
 .btn-discord {
-  background: linear-gradient(135deg, #7289da, #5b6eae);
-  box-shadow: 0 5px 15px rgba(114, 137, 218, 0.4);
+background: linear-gradient(135deg, #7289da, #5b6eae);
+box-shadow: 0 5px 15px rgba(114, 137, 218, 0.4);
 }
 
 .status-section {
-  padding-top: 25px;
-  position: relative;
+padding-top: 25px;
+position: relative;
 }
 
 .status-section h3 {
-  color: var(--neon-blue);
-  text-align: center;
-  font-size: 1.8em;
-  margin-bottom: 20px;
-  position: relative;
+color: var(--neon-blue);
+text-align: center;
+font-size: 1.8em;
+margin-bottom: 20px;
+position: relative;
 }
 
 .status-section h3::after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 3px;
-  background: var(--neon-blue);
-  border-radius: 3px;
+content: '';
+position: absolute;
+bottom: -10px;
+left: 50%;
+transform: translateX(-50%);
+width: 80px;
+height: 3px;
+background: var(--neon-blue);
+border-radius: 3px;
 }
 
 iframe {
-  width: 100%;
-  height: 280px;
-  border: 2px solid var(--glass-border);
-  border-radius: 15px;
-  background: var(--glass-bg);
-  box-shadow: 0 0 20px rgba(52, 152, 219, 0.2);
-  transition: all 0.3s ease;
+width: 100%;
+height: 280px;
+border: 2px solid var(--glass-border);
+border-radius: 15px;
+background: var(--glass-bg);
+box-shadow: 0 0 20px rgba(52, 152, 219, 0.2);
+transition: all 0.3s ease;
 }
 
 iframe:hover {
-  border-color: var(--neon-blue);
-  box-shadow: 0 0 30px rgba(52, 152, 219, 0.4);
+border-color: var(--neon-blue);
+box-shadow: 0 0 30px rgba(52, 152, 219, 0.4);
 }
 
 @media (max-width: 768px) {
-  .container {
-    padding: 25px;
-  }
-  
-  header h1 {
-    font-size: 2.2em;
-  }
-  
-  .project-card {
-    flex-direction: column;
-    text-align: center;
-    padding: 25px;
-  }
-  
-  .img-container {
-    margin-bottom: 20px;
-  }
-  
-  .project-info h2 {
-    font-size: 2em;
-  }
-  
-  .description {
-    font-size: 1.05em;
-  }
-  
-  .btn {
-    width: 100%;
-    padding: 18px;
-  }
-  
-  header {
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  iframe {
-    height: 250px;
-  }
+.container {
+padding: 25px;
+}
+
+header h1 {
+font-size: 2.2em;
+}
+
+.project-card {
+flex-direction: column;
+text-align: center;
+padding: 25px;
+}
+
+.img-container {
+margin-bottom: 20px;
+}
+
+.project-info h2 {
+font-size: 2em;
+}
+
+.description {
+font-size: 1.05em;
+}
+
+.btn {
+width: 100%;
+padding: 18px;
+}
+
+header {
+flex-direction: column;
+gap: 15px;
+}
+
+iframe {
+height: 250px;
+}
 }
 
 @media (max-width: 480px) {
-  body {
-    padding: 15px;
-  }
-  
-  .container {
-    padding: 20px;
-  }
-  
-  header h1 {
-    font-size: 1.8em;
-  }
-  
-  .project-card {
-    padding: 20px;
-  }
-  
-  .img-container {
-    width: 120px;
-    height: 120px;
-  }
-  
-  .project-info h2 {
-    font-size: 1.7em;
-  }
-  
-  .description {
-    font-size: 1em;
-  }
+body {
+padding: 15px;
+}
+
+.container {
+padding: 20px;
+}
+
+header h1 {
+font-size: 1.8em;
+}
+
+.project-card {
+padding: 20px;
+}
+
+.img-container {
+width: 120px;
+height: 120px;
+}
+
+.project-info h2 {
+font-size: 1.7em;
+}
+
+.description {
+font-size: 1em;
+}
 }
 </style>
+
 </head>
 <body data-theme="dark">
 
 <div class="container">
-  <header>
-    <h1>UmutiyaX Projects</h1>
-    <div id="theme-toggle" class="theme-toggle">
-      <div class="theme-icon-container">
-        <div class="morph-icon sun"></div>
-        <div class="morph-icon moon"></div>
-      </div>
-    </div>
-  </header>
+<header>
+<h1>UmutiyaX Projects</h1>
+<div id="theme-toggle" class="theme-toggle">
+<div class="theme-icon-container">
+<div class="morph-icon sun"></div>
+<div class="morph-icon moon"></div>
+</div>
+</div>
+</header>
 
-  <section class="project-card" id="project-card-umutiyax">
-    <div class="img-container">
-      <img src="assets/UmutiyaX AI2.png" alt="UmutiyAIX Simge">
-    </div>
-    <div class="project-info">
-      <h2>UmutiyAIX</h2>
-      <p class="description">
-        Discord sunucularınızı daha eğlenceli hale getiren yapay zeka destekli hızlı bir chatbot! Resim oluşturabilir, görsel tanıyabilir, sesli konuşabilir (şimdilik metin kanalına ses dosyası atar) ve çok daha fazlasını yapabilir!
-      </p>
-      <div class="actions">
-        <a href="https://discord.com/oauth2/authorize?client_id=1424383863593107628" target="_blank" class="btn btn-discord">
-          Discord Sunucusuna Ekle!
-        </a>
-      </div>
-    </div>
-  </section>
-  
-  <!-- AKTİFLİK DURUMU BURAYA TAŞINDI -->
-  <section class="status-section">
-    <h3>🤖 Aktiflik Durumu</h3>
-    <iframe src="aktiflik.html" frameborder="0" title="Aktiflik Durumu"></iframe>
-  </section>
+<section class="project-card" id="project-card-umutiyax">
+<div class="img-container">
+<img src="assets/UmutiyaX AI2.png" alt="UmutiyAIX Simge">
+</div>
+<div class="project-info">
+<h2>UmutiyAIX</h2>
+<p class="description">
+Discord sunucularınızı daha eğlenceli hale getiren yapay zeka destekli hızlı bir chatbot! Resim oluşturabilir, görsel tanıyabilir, sesli konuşabilir (şimdilik metin kanalına ses dosyası atar) ve çok daha fazlasını yapabilir!
+</p>
+<div class="actions">
+<a href="https://discord.com/oauth2/authorize?client_id=1424383863593107628" target="_blank" class="btn btn-discord">
+Discord Sunucusuna Ekle!
+</a>
+</div>
+</div>
+</section>
 
-  <!-- YENİ PROJE -->
-  <section class="project-card" id="project-card-gungame">
-    <div class="img-container">
-      <!-- LOGO DEĞİŞTİRİLDİ -->
-      <img src="assets/gungame.png" alt="Test Gun Game Logosu">
-    </div>
-    <div class="project-info">
-      <h2>Test Gun Game</h2>
-      <p class="description">
-        Bu heyecan verici silah oyununu test edin! Becerilerinizi gösterin ve en yüksek skoru elde etmeye çalışın.
-      </p>
-      <div class="actions">
-        <a href="game.html" class="btn">
-          Oyuna Git!
-        </a>
-      </div>
-    </div>
-  </section>
+<!-- AKTİFLİK DURUMU BURAYA TAŞINDI -->
+
+<section class="status-section">
+<h3>🤖 Aktiflik Durumu</h3>
+<iframe src="aktiflik.html" frameborder="0" title="Aktiflik Durumu"></iframe>
+</section>
 
 </div>
 
 <script>
-    const themeToggle = document.getElementById('theme-toggle');
-    const body = document.body;
-    const projectCards = document.querySelectorAll('.project-card');
-    const iframe = document.querySelector('iframe');
+const themeToggle = document.getElementById('theme-toggle');
+const body = document.body;
+const projectCards = document.querySelectorAll('.project-card');
+const iframe = document.querySelector('iframe');
 
-    function notifyIframe(theme) {
-        if (iframe && iframe.contentWindow) {
-            iframe.contentWindow.postMessage({
-                type: 'themeChange',
-                theme: theme
-            }, '*');
-        }
-    }
+function notifyIframe(theme) {
+if (iframe && iframe.contentWindow) {
+iframe.contentWindow.postMessage({
+type: 'themeChange',
+theme: theme
+}, '*');
+}
+}
 
-    function toggleTheme() {
-        const currentTheme = body.getAttribute('data-theme');
-        let newTheme;
-        
-        if (currentTheme === 'dark') {
-            newTheme = 'light';
-            body.setAttribute('data-theme', newTheme);
-        } else {
-            newTheme = 'dark';
-            body.setAttribute('data-theme', newTheme);
-        }
-        
-        notifyIframe(newTheme);
-    }
+function toggleTheme() {
+const currentTheme = body.getAttribute('data-theme');
+let newTheme;
 
-    window.onload = () => {
-        notifyIframe(body.getAttribute('data-theme'));
-    };
+if (currentTheme === 'dark') {
+newTheme = 'light';
+body.setAttribute('data-theme', newTheme);
+} else {
+newTheme = 'dark';
+body.setAttribute('data-theme', newTheme);
+}
 
-    themeToggle.addEventListener('click', toggleTheme);
+notifyIframe(newTheme);
+}
 
-    // Enhanced 3D Tilt Effect for all project cards
-    projectCards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = (e.clientX - rect.left) / rect.width;
-            const y = (e.clientY - rect.top) / rect.height;
+window.onload = () => {
+notifyIframe(body.getAttribute('data-theme'));
+};
 
-            const tiltX = (y - 0.5) * 15; 
-            const tiltY = (0.5 - x) * 15; 
-            
-            const shadowColor = body.getAttribute('data-theme') === 'dark' ? 'rgba(155, 89, 182, 0.6)' : 'rgba(155, 89, 182, 0.4)';
+themeToggle.addEventListener('click', toggleTheme);
 
-            card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.02)`;
-            card.style.boxShadow = `0 15px 45px ${shadowColor}, 0 0 10px rgba(255, 255, 255, 0.1)`;
-        });
+// Enhanced 3D Tilt Effect for all project cards
+projectCards.forEach(card => {
+card.addEventListener('mousemove', (e) => {
+const rect = card.getBoundingClientRect();
+const x = (e.clientX - rect.left) / rect.width;
+const y = (e.clientY - rect.top) / rect.height;
 
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
-            card.style.boxShadow = 'var(--glass-shadow)';
-        });
-    });
+const tiltX = (y - 0.5) * 15;
+const tiltY = (0.5 - x) * 15;
+
+const shadowColor = body.getAttribute('data-theme') === 'dark' ? 'rgba(155, 89, 182, 0.6)' : 'rgba(155, 89, 182, 0.4)';
+
+card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.02)`;
+card.style.boxShadow = `0 15px 45px ${shadowColor}, 0 0 10px rgba(255, 255, 255, 0.1)`;
+});
+
+card.addEventListener('mouseleave', () => {
+card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+card.style.boxShadow = 'var(--glass-shadow)';
+});
+});
 </script>
 
 </body>
