@@ -1,807 +1,514 @@
 <!DOCTYPE html>
-
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UmutiyaX Projects</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UmutiyaX Projects</title>
 
-<meta property="og:title" content="UmutiyaX Projects">
-<meta property="og:description" content="Umut'un babapuro projeleri!">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://umutiya.netlify.app"> <meta property="og:image" content="https://umutiya.netlify.app/assets/umutiyaxprojects.png"> <meta name="theme-color" content="#9b59b6">
+    <meta property="og:title" content="UmutiyaX Projects">
+    <meta property="og:description" content="Umut'un babapuro projeleri!">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://umutiya.netlify.app"> 
+    <meta property="og:image" content="https://umutiya.netlify.app/assets/umutiyaxprojects.png"> 
+    <meta name="theme-color" content="#9b59b6">
 
-<link rel="icon" type="image/png" href="assets/umutiyaxprojects.png">
-<style>
-:root {
---purple-main: #9b59b6;
---purple-accent: #8e44ad;
---neon-blue: #3498db;
---green-online: #2ecc71;
---red-offline: #e74c3c;
---shadow-light: rgba(0, 0, 0, 0.15);
---shadow-dark: rgba(0, 0, 0, 0.3);
---bg-primary: #121220;
---bg-secondary: #1e1e2f;
---bg-card: rgba(30, 30, 47, 0.6);
---text-color: #f0f6f6;
---text-secondary: #a0a0c0;
---card-border: rgba(155, 89, 182, 0.3);
---card-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
---button-hover-bg: #8e44ad;
---button-discord-bg: #7289da;
---gradient-start: linear-gradient(135deg, #9b59b6, #3498db);
---glass-bg: rgba(30, 30, 47, 0.6);
---glass-border: rgba(255, 255, 255, 0.08);
---glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-}
+    <link rel="icon" type="image/png" href="assets/umutiyaxprojects.png">
+    <style>
+        :root {
+            --purple-main: #9b59b6;
+            --purple-accent: #8e44ad;
+            --neon-blue: #3498db;
+            --green-online: #2ecc71;
+            --red-offline: #e74c3c;
+            --shadow-light: rgba(0, 0, 0, 0.15);
+            --shadow-dark: rgba(0, 0, 0, 0.3);
+            --bg-primary: #121220;
+            --bg-secondary: #1e1e2f;
+            --bg-card: rgba(30, 30, 47, 0.6);
+            --text-color: #f0f6f6;
+            --text-secondary: #a0a0c0;
+            --card-border: rgba(155, 89, 182, 0.3);
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --button-hover-bg: #8e44ad;
+            --button-discord-bg: #7289da;
+            --gradient-start: linear-gradient(135deg, #9b59b6, #3498db);
+            --glass-bg: rgba(30, 30, 47, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
 
+        [data-theme="light"] {
+            --bg-primary: #f0f2f5;
+            --bg-secondary: #ffffff;
+            --bg-card: rgba(255, 255, 255, 0.8);
+            --text-color: #1c1e21;
+            --text-secondary: #555577;
+            --card-border: rgba(155, 89, 182, 0.2);
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            --button-hover-bg: #a676c7;
+            --button-discord-bg: #7289da;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(0, 0, 0, 0.08);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
 
-[data-theme="light"] {
---bg-primary: #f0f2f5;
---bg-secondary: #ffffff;
---bg-card: rgba(255, 255, 255, 0.8);
---text-color: #1c1e21;
---text-secondary: #555577;
---card-border: rgba(155, 89, 182, 0.2);
---card-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
---button-hover-bg: #a676c7;
---button-discord-bg: #7289da;
---glass-bg: rgba(255, 255, 255, 0.7);
---glass-border: rgba(0, 0, 0, 0.08);
---glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-}
+        * {
+            box-sizing: border-box;
+        }
 
-{
-box-sizing: border-box;
-}
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            transition: background-color 0.5s, color 0.5s;
+            position: relative;
+            overflow-x: hidden;
+        }
 
-body {
-font-family: 'Poppins', sans-serif;
-background: var(--bg-primary);
-color: var(--text-color);
-display: flex;
-justify-content: center;
-align-items: center;
-min-height: 100vh;
-margin: 0;
-padding: 20px;
-transition: background-color 0.5s, color 0.5s;
-position: relative;
-overflow-x: hidden;
-}
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 10% 20%, rgba(155, 89, 182, 0.1) 0%, transparent 20%),
+                        radial-gradient(circle at 90% 80%, rgba(52, 152, 219, 0.1) 0%, transparent 20%);
+            z-index: -1;
+        }
 
-body::before {
-content: '';
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: radial-gradient(circle at 10% 20%, rgba(155, 89, 182, 0.1) 0%, transparent 20%),
-radial-gradient(circle at 90% 80%, rgba(52, 152, 219, 0.1) 0%, transparent 20%);
-z-index: -1;
-}
+        .container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: var(--glass-shadow);
+            max-width: 950px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 35px;
+            border: 1px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
 
-.container {
-background: var(--glass-bg);
-backdrop-filter: blur(12px);
--webkit-backdrop-filter: blur(12px);
-padding: 40px;
-border-radius: 25px;
-box-shadow: var(--glass-shadow);
-max-width: 950px;
-width: 100%;
-display: flex;
-flex-direction: column;
-gap: 35px;
-border: 1px solid var(--glass-border);
-position: relative;
-overflow: hidden;
-transition: all 0.4s ease;
-}
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(155, 89, 182, 0.1),
+                transparent
+            );
+            transform: rotate(45deg);
+            z-index: -1;
+            animation: shine 8s infinite;
+        }
 
-.container::before {
-content: '';
-position: absolute;
-top: -50%;
-left: -50%;
-width: 200%;
-height: 200%;
-background: linear-gradient(
-45deg,
-transparent,
-rgba(155, 89, 182, 0.1),
-transparent
-);
-transform: rotate(45deg);
-z-index: -1;
-animation: shine 8s infinite;
-}
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
 
-@keyframes shine {
-0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-}
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            position: relative;
+        }
 
-header {
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding-bottom: 20px;
-position: relative;
-}
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--purple-main), transparent);
+        }
 
-header::after {
-content: '';
-position: absolute;
-bottom: 0;
-left: 0;
-width: 100%;
-height: 2px;
-background: linear-gradient(90deg, transparent, var(--purple-main), transparent);
-}
+        header h1 {
+            font-size: 3em;
+            color: var(--purple-main);
+            margin: 0;
+            background: var(--gradient-start);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(155, 89, 182, 0.3);
+            letter-spacing: -0.5px;
+        }
 
-header h1 {
-font-size: 3em;
-color: var(--purple-main);
-margin: 0;
-background: var(--gradient-start);
--webkit-background-clip: text;
-background-clip: text;
-color: transparent;
-text-shadow: 0 0 15px rgba(155, 89, 182, 0.3);
-letter-spacing: -0.5px;
-}
+        .theme-toggle {
+            cursor: pointer;
+            font-size: 1.8em;
+            transition: all 0.3s ease;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            position: relative;
+            overflow: hidden;
+        }
 
-.theme-toggle {
-cursor: pointer;
-font-size: 1.8em;
-transition: all 0.3s ease;
-width: 50px;
-height: 50px;
-display: flex;
-align-items: center;
-justify-content: center;
-border-radius: 50%;
-background: var(--glass-bg);
-border: 1px solid var(--glass-border);
-box-shadow: var(--glass-shadow);
-position: relative;
-overflow: hidden;
-}
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(155, 89, 182, 0.5);
+        }
 
-.theme-toggle:hover {
-transform: scale(1.1);
-box-shadow: 0 0 20px rgba(155, 89, 182, 0.5);
-}
+        .theme-icon-container {
+            position: relative;
+            width: 24px;
+            height: 24px;
+        }
 
-/* Morphing Theme Toggle */
-.theme-icon-container {
-position: relative;
-width: 24px;
-height: 24px;
-}
+        .morph-icon {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transition: all 0.6s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+        }
 
-.morph-icon {
-position: absolute;
-width: 100%;
-height: 100%;
-transition: all 0.6s cubic-bezier(0.45, 0.05, 0.55, 0.95);
-}
+        .sun {
+            background: #f1c40f;
+            border-radius: 50%;
+            box-shadow: 
+                0 -12px 0 0.5px #f39c12, 
+                0 12px 0 0.5px #f39c12, 
+                -12px 0 0 0.5px #f39c12, 
+                12px 0 0 0.5px #f39c12, 
+                -8px -8px 0 0.5px #f39c12, 
+                8px -8px 0 0.5px #f39c12, 
+                -8px 8px 0 0.5px #f39c12, 
+                8px 8px 0 0.5px #f39c12;
+            transition: all 0.6s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+            transform-origin: center;
+        }
 
-/* Sun Icon - Dark Mode'da Görünür */
-.sun {
-background: #f1c40f;
-border-radius: 50%;
-box-shadow:
-0 -12px 0 0.5px #f39c12,
-0 12px 0 0.5px #f39c12,
--12px 0 0 0.5px #f39c12,
-12px 0 0 0.5px #f39c12,
--8px -8px 0 0.5px #f39c12,
-8px -8px 0 0.5px #f39c12,
--8px 8px 0 0.5px #f39c12,
-8px 8px 0 0.5px #f39c12;
-transition: all 0.6s cubic-bezier(0.45, 0.05, 0.55, 0.95);
-transform-origin: center;
-}
+        .moon {
+            background: #f0f6f6;
+            border-radius: 50%;
+            box-shadow: inset 7px -7px 0 1px #a0a0c0;
+            transform: rotate(0deg) scale(0);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+            transform-origin: center;
+        }
 
-/* Moon Icon - Light Mode'da Görünür */
-.moon {
-background: #f0f6f6;
-border-radius: 50%;
-box-shadow: inset 7px -7px 0 1px #a0a0c0;
-transform: rotate(0deg) scale(0);
-opacity: 0;
-transition: all 0.6s cubic-bezier(0.45, 0.05, 0.55, 0.95);
-transform-origin: center;
-}
+        [data-theme="dark"] .sun { transform: rotate(0deg) scale(1); opacity: 1; }
+        [data-theme="dark"] .moon { transform: rotate(45deg) scale(0); opacity: 0; }
+        [data-theme="light"] .sun { transform: rotate(90deg) scale(0); opacity: 0; }
+        [data-theme="light"] .moon { transform: rotate(0deg) scale(1); opacity: 1; background: #1c1e21; box-shadow: inset 7px -7px 0 1px #555577; }
 
-/* Morphing Transitions */
-[data-theme="dark"] .sun {
-transform: rotate(0deg) scale(1);
-opacity: 1;
-}
+        .project-card {
+            padding: 35px;
+            border-radius: 20px;
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--glass-shadow);
+            will-change: transform, box-shadow;
+        }
 
-[data-theme="dark"] .moon {
-transform: rotate(45deg) scale(0);
-opacity: 0;
-}
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg,
+                rgba(155, 89, 182, 0.1) 0%,
+                transparent 30%,
+                rgba(52, 152, 219, 0.1) 100%);
+            z-index: -1;
+            opacity: 0.7;
+        }
 
-[data-theme="light"] .sun {
-transform: rotate(90deg) scale(0);
-opacity: 0;
-}
+        .project-card:hover {
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4);
+            border-color: var(--purple-main);
+        }
 
-[data-theme="light"] .moon {
-transform: rotate(0deg) scale(1);
-opacity: 1;
-background: #1c1e21;
-box-shadow: inset 7px -7px 0 1px #555577;
-}
+        .img-container {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            padding: 8px;
+            background: var(--glass-bg);
+            border: 2px solid var(--neon-blue);
+            box-shadow: 0 0 20px rgba(52, 152, 219, 0.4);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
 
-.project-card {
-padding: 35px;
-border-radius: 20px;
-display: flex;
-gap: 30px;
-align-items: center;
-background: var(--glass-bg);
-backdrop-filter: blur(10px);
--webkit-backdrop-filter: blur(10px);
-border: 1px solid var(--glass-border);
-transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-position: relative;
-overflow: hidden;
-box-shadow: var(--glass-shadow);
-will-change: transform, box-shadow;
-}
+        .img-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transform: rotate(45deg);
+            z-index: -1;
+            animation: shine 3s infinite;
+        }
 
-.project-card::before {
-content: '';
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: linear-gradient(135deg,
-rgba(155, 89, 182, 0.1) 0%,
-transparent 30%,
-rgba(52, 152, 219, 0.1) 100%);
-z-index: -1;
-opacity: 0.7;
-}
+        .img-container:hover {
+            transform: scale(1.05) rotate(5deg);
+            box-shadow: 0 0 30px rgba(52, 152, 219, 0.6);
+            border-color: var(--purple-main);
+        }
 
-.project-card:hover {
-box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4);
-border-color: var(--purple-main);
-}
+        .img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
+            display: block;
+        }
 
-.img-container {
-width: 140px;
-height: 140px;
-border-radius: 50%;
-padding: 8px;
-background: var(--glass-bg);
-border: 2px solid var(--neon-blue);
-box-shadow: 0 0 20px rgba(52, 152, 219, 0.4);
-flex-shrink: 0;
-display: flex;
-align-items: center;
-justify-content: center;
-transition: all 0.3s ease;
-position: relative;
-overflow: hidden;
-}
+        .project-info {
+            flex-grow: 1;
+        }
 
-.img-container::before {
-content: '';
-position: absolute;
-top: -50%;
-left: -50%;
-width: 200%;
-height: 200%;
-background: linear-gradient(
-45deg,
-transparent,
-rgba(255, 255, 255, 0.2),
-transparent
-);
-transform: rotate(45deg);
-z-index: -1;
-animation: shine 3s infinite;
-}
+        .project-info h2 {
+            margin-top: 0;
+            color: var(--purple-main);
+            font-size: 2.3em;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
 
-.img-container:hover {
-transform: scale(1.05) rotate(5deg);
-box-shadow: 0 0 30px rgba(52, 152, 219, 0.6);
-border-color: var(--purple-main);
-}
+        .project-info h2::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--neon-blue);
+            border-radius: 3px;
+        }
 
-.img-container img {
-width: 100%;
-height: 100%;
-object-fit: contain;
-border-radius: 50%;
-display: block;
-}
+        .description {
+            margin: 20px 0;
+            line-height: 1.8;
+            font-size: 1.15em;
+            color: var(--text-secondary);
+            position: relative;
+        }
 
-.project-info {
-flex-grow: 1;
-}
+        .description::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: -15px;
+            font-size: 3em;
+            color: var(--purple-main);
+            opacity: 0.2;
+            font-family: serif;
+        }
 
-.project-info h2 {
-margin-top: 0;
-color: var(--purple-main);
-font-size: 2.3em;
-margin-bottom: 15px;
-position: relative;
-display: inline-block;
-}
+        .actions {
+            margin-top: 25px;
+        }
 
-.project-info h2::after {
-content: '';
-position: absolute;
-bottom: -5px;
-left: 0;
-width: 50px;
-height: 3px;
-background: var(--neon-blue);
-border-radius: 3px;
-}
+        .btn {
+            padding: 16px 35px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.15em;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            background: var(--gradient-start);
+            color: white;
+            box-shadow: 0 5px 15px rgba(155, 89, 182, 0.4);
+        }
 
-.description {
-margin: 20px 0;
-line-height: 1.8;
-font-size: 1.15em;
-color: var(--text-secondary);
-position: relative;
-}
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+            z-index: -1;
+        }
 
-.description::before {
-content: '"';
-position: absolute;
-top: -20px;
-left: -15px;
-font-size: 3em;
-color: var(--purple-main);
-opacity: 0.2;
-font-family: serif;
-}
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(155, 89, 182, 0.6);
+        }
 
-.actions {
-margin-top: 25px;
-}
+        .btn:hover::before {
+            transform: translateX(100%);
+        }
 
-.btn {
-padding: 16px 35px;
-border: none;
-border-radius: 12px;
-font-size: 1.15em;
-cursor: pointer;
-text-decoration: none;
-text-align: center;
-font-weight: 600;
-display: inline-block;
-transition: all 0.3s ease;
-text-transform: uppercase;
-letter-spacing: 1px;
-position: relative;
-overflow: hidden;
-z-index: 1;
-background: var(--gradient-start);
-color: white;
-box-shadow: 0 5px 15px rgba(155, 89, 182, 0.4);
-}
+        .btn-discord {
+            background: linear-gradient(135deg, #7289da, #5b6eae);
+            box-shadow: 0 5px 15px rgba(114, 137, 218, 0.4);
+        }
 
-.btn::before {
-content: '';
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: linear-gradient(90deg,
-transparent,
-rgba(255, 255, 255, 0.2),
-transparent);
-transform: translateX(-100%);
-transition: transform 0.6s ease;
-z-index: -1;
-}
+        @media (max-width: 768px) {
+            .container { padding: 25px; }
+            header h1 { font-size: 2.2em; }
+            .project-card { flex-direction: column; text-align: center; padding: 25px; }
+            .img-container { margin-bottom: 20px; }
+            .project-info h2 { font-size: 2em; }
+            .description { font-size: 1.05em; }
+            .btn { width: 100%; padding: 18px; }
+            header { flex-direction: column; gap: 15px; }
+        }
 
-.btn:hover {
-transform: translateY(-3px);
-box-shadow: 0 10px 25px rgba(155, 89, 182, 0.6);
-}
-
-.btn:hover::before {
-transform: translateX(100%);
-}
-
-.btn-discord {
-background: linear-gradient(135deg, #7289da, #5b6eae);
-box-shadow: 0 5px 15px rgba(114, 137, 218, 0.4);
-}
-
-.status-section {
-padding-top: 25px;
-position: relative;
-}
-
-.status-section h3 {
-color: var(--neon-blue);
-text-align: center;
-font-size: 1.8em;
-margin-bottom: 20px;
-position: relative;
-}
-
-.status-section h3::after {
-content: '';
-position: absolute;
-bottom: -10px;
-left: 50%;
-transform: translateX(-50%);
-width: 80px;
-height: 3px;
-background: var(--neon-blue);
-border-radius: 3px;
-}
-
-iframe {
-width: 100%;
-height: 280px;
-border: 2px solid var(--glass-border);
-border-radius: 15px;
-background: var(--glass-bg);
-box-shadow: 0 0 20px rgba(52, 152, 219, 0.2);
-transition: all 0.3s ease;
-}
-
-iframe:hover {
-border-color: var(--neon-blue);
-box-shadow: 0 0 30px rgba(52, 152, 219, 0.4);
-}
-
-@media (max-width: 768px) {
-.container {
-padding: 25px;
-}
-
-header h1 {
-font-size: 2.2em;
-}
-
-.project-card {
-flex-direction: column;
-text-align: center;
-padding: 25px;
-}
-
-.img-container {
-margin-bottom: 20px;
-}
-
-.project-info h2 {
-font-size: 2em;
-}
-
-.description {
-font-size: 1.05em;
-}
-
-.btn {
-width: 100%;
-padding: 18px;
-}
-
-header {
-flex-direction: column;
-gap: 15px;
-}
-
-iframe {
-height: 250px;
-}
-}
-
-@media (max-width: 480px) {
-body {
-padding: 15px;
-}
-
-.container {
-padding: 20px;
-}
-
-header h1 {
-font-size: 1.8em;
-}
-
-.project-card {
-padding: 20px;
-}
-
-.img-container {
-width: 120px;
-height: 120px;
-}
-
-.project-info h2 {
-font-size: 1.7em;
-}
-
-.description {
-font-size: 1em;
-}
-}
-</style>
-
+        @media (max-width: 480px) {
+            body { padding: 15px; }
+            .container { padding: 20px; }
+            header h1 { font-size: 1.8em; }
+            .project-card { padding: 20px; }
+            .img-container { width: 120px; height: 120px; }
+            .project-info h2 { font-size: 1.7em; }
+            .description { font-size: 1em; }
+        }
+    </style>
 </head>
 <body data-theme="dark">
 
 <div class="container">
-<header>
-<h1>UmutiyaX Projects</h1>
-<div id="theme-toggle" class="theme-toggle">
-<div class="theme-icon-container">
-<div class="morph-icon sun"></div>
-<div class="morph-icon moon"></div>
-</div>
-</div>
-</header>
+    <header>
+        <h1>UmutiyaX Projects</h1>
+        <div id="theme-toggle" class="theme-toggle">
+            <div class="theme-icon-container">
+                <div class="morph-icon sun"></div>
+                <div class="morph-icon moon"></div>
+            </div>
+        </div>
+    </header>
 
-<!-- UmoBot -->
+    <!-- UmutiyAIX (The New Unified Bot) -->
+    <section class="project-card">
+        <div class="img-container">
+            <img src="assets/umultiya.png" alt="UmutiyAIX">
+        </div>
+        <div class="project-info">
+            <h2>UmutiyAIX</h2>
+            <p class="description">
+                Hepsi bir arada Discord botu! Merak etmeyin, diğer botlar gitmedi; sadece bu botun içinde <b>Umultiya</b> kod adı altında birleştirildiler.
+            </p>
+            <div class="actions">
+                <a href="https://discord.com/oauth2/authorize?client_id=1447632001346699374" target="_blank" class="btn btn-discord">
+                    Discord Sunucusuna Ekle!
+                </a>
+            </div>
+        </div>
+    </section>
 
-<section class="project-card">
-<div class="img-container">
-<img src="assets/umobot.png" alt="UmoBot">
-</div>
-<div class="project-info">
-<h2>UmoBot</h2>
-<p class="description">
-Sunucunuz için özelliklerle dolu, gelişmiş bir chatbot. İhtiyacınız olan her şey tek bir botta!
-</p>
-<div class="actions">
-<a href="https://discord.com/oauth2/authorize?client_id=1444094392070570054" target="_blank" class="btn btn-discord">
-Discord Sunucusuna Ekle!
-</a>
-</div>
-</div>
-</section>
-
-<!-- RoastiyaX -->
-
-<section class="project-card">
-<div class="img-container">
-<img src="assets/roastiyax.png" alt="RoastiyaX">
-</div>
-<div class="project-info">
-<h2>RoastiyaX</h2>
-<p class="description">
-Tam bir laf sokucu roast botu! Arkadaşlarınıza şakayla karışık laf sokmak için birebir.
-</p>
-<div class="actions">
-<a href="https://discord.com/oauth2/authorize?client_id=1443689245507194913" target="_blank" class="btn btn-discord">
-Discord Sunucusuna Ekle!
-</a>
-</div>
-</div>
-</section>
-
-<!-- AIifyiya -->
-
-<section class="project-card">
-<div class="img-container">
-<img src="assets/aifyiya.png" alt="AIifyiya">
-</div>
-<div class="project-info">
-<h2>AIifyiya</h2>
-<p class="description">
-Akıllı gramer botu. Yazılarınızı analiz eder ve dil bilgisi hatalarını anında düzeltir.
-</p>
-<div class="actions">
-<a href="https://discord.com/oauth2/authorize?client_id=1444087677082271901" target="_blank" class="btn btn-discord">
-Discord Sunucusuna Ekle!
-</a>
-</div>
-</div>
-</section>
-
-<!-- UmutiyAI Server Creator -->
-
-<section class="project-card">
-<div class="img-container">
-<img src="assets/servercreator.png" alt="UmutiyAI Server Creator">
-</div>
-<div class="project-info">
-<h2>UmutiyAI Server Creator</h2>
-<p class="description">
-Bu bot, sunucunuzu baştan aşağı kurar. Kanallar, roller, bilet sistemi ve daha fazlasını otomatik olarak oluşturur.
-</p>
-<div class="actions">
-<a href="https://discord.com/oauth2/authorize?client_id=1445835917485936873" target="_blank" class="btn btn-discord">
-Discord Sunucusuna Ekle!
-</a>
-</div>
-</div>
-</section>
-
-<!-- Umulities -->
-
-<section class="project-card">
-<div class="img-container">
-<img src="assets/umulities.png" alt="Umulities">
-</div>
-<div class="project-info">
-<h2>Umulities</h2>
-<p class="description">
-Sunucunuz için hayat kalitesini artıran bir dizi araç içerir. Yönetimi kolaylaştıran pratik komutlar sunar.
-</p>
-<div class="actions">
-<a href="https://discord.com/oauth2/authorize?client_id=1445865215697621075" target="_blank" class="btn btn-discord">
-Discord Sunucusuna Ekle!
-</a>
-</div>
-</div>
-</section>
-
-<!-- Verifyiya -->
-
-<section class="project-card">
-<div class="img-container">
-<img src="assets/verifyiya.png" alt="Verifyiya">
-</div>
-<div class="project-info">
-<h2>Verifyiya</h2>
-<p class="description">
-Sunucunuz için gelişmiş doğrulama sistemleri sunar. Güvenliği artırmak için çeşitli doğrulama araçları içerir.
-</p>
-<div class="actions">
-<a href="#" class="btn btn-discord" style="pointer-events: none; opacity: 0.6;">
-Yakında Gelecek!
-</a>
-</div>
-</div>
-</section>
-
-<!-- Evil UmutiyAIX -->
-
-<section class="project-card">
-<div class="img-container">
-<img src="assets/evilumutiyai.png" alt="Evil UmutiyAIX AI">
-</div>
-<div class="project-info">
-<h2>Evil UmutiyaX AI</h2>
-<p class="description">
-Unhinged ve kötü niyetli yanıtlar veren yapay zeka chatbotu.
-</p>
-<div class="actions">
-<a href="https://discord.com/oauth2/authorize?client_id=1428740667580092558" target="_blank" class="btn btn-discord">
-Discord Sunucusuna Ekle!
-</a>
-</div>
-</div>
-</section>
-
-<!-- Legacy UmutiyAIX -->
-
-<section class="project-card">
-<div class="img-container">
-<img src="assets/umutiyai.png" alt="UmutiyAIX AI">
-</div>
-<div class="project-info">
-<h2>UmutiyaX AI</h2>
-<p class="description">
-Legacy ChatBot, UmoBot'un önceki sürümü.
-</p>
-<div class="actions">
-<a href="https://discord.com/oauth2/authorize?client_id=1424383863593107628" target="_blank" class="btn btn-discord">
-Discord Sunucusuna Ekle!
-</a>
-</div>
-</div>
-</section>
-
-<!-- Umian AI -->
-
-<section class="project-card">
-<div class="img-container">
-<img src="assets/umian.png" alt="Umian AI">
-</div>
-<div class="project-info">
-<h2>Umian AI</h2>
-<p class="description">
-Tamamlanmamış bir yapay zeka projesi. Diğer AI chatbotlarına kıyasla daha basit özellikler sunar, diğerleri kadar gelişmiş değildir. Hatalar içerebilir.
-</p>
-<div class="actions">
-<a href="https://discord.com/oauth2/authorize?client_id=1446825662584328317" target="_blank" class="btn btn-discord">
-Discord Sunucusuna Ekle!
-</a>
-</div>
-</div>
-</section>
-
-<!-- ChatBot Creator -->
-
-<section class="project-card">
-<div class="img-container">
-<img src="assets/chatbotmaker.png" alt="ChatBot Creator">
-</div>
-<div class="project-info">
-<h2>ChatBot Creator</h2>
-<p class="description">
-Sizin için temel bir chatbot.
-</p>
-<div class="actions">
-<a href="files/ChatbotCreator.zip" class="btn btn-discord">
-Dosyaları İndir!
-</a>
-</div>
-</div>
-</section>
+    <!-- ChatBot Creator (Kept as requested) -->
+    <section class="project-card">
+        <div class="img-container">
+            <img src="assets/chatbotmaker.png" alt="ChatBot Creator">
+        </div>
+        <div class="project-info">
+            <h2>ChatBot Creator</h2>
+            <p class="description">
+                Sizin için temel bir chatbot.
+            </p>
+            <div class="actions">
+                <a href="files/ChatbotCreator.zip" class="btn btn-discord">
+                    Dosyaları İndir!
+                </a>
+            </div>
+        </div>
+    </section>
 
 </div>
 
 <script>
-const themeToggle = document.getElementById('theme-toggle');
-const body = document.body;
-const projectCards = document.querySelectorAll('.project-card');
-const iframe = document.querySelector('iframe');
+    const themeToggle = document.getElementById('theme-toggle');
+    const body = document.body;
+    const projectCards = document.querySelectorAll('.project-card');
 
-function notifyIframe(theme) {
-if (iframe && iframe.contentWindow) {
-iframe.contentWindow.postMessage({
-type: 'themeChange',
-theme: theme
-}, '*');
-}
-}
+    function toggleTheme() {
+        const currentTheme = body.getAttribute('data-theme');
+        let newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        body.setAttribute('data-theme', newTheme);
+    }
 
-function toggleTheme() {
-const currentTheme = body.getAttribute('data-theme');
-let newTheme;
+    themeToggle.addEventListener('click', toggleTheme);
 
-if (currentTheme === 'dark') {
-newTheme = 'light';
-body.setAttribute('data-theme', newTheme);
-} else {
-newTheme = 'dark';
-body.setAttribute('data-theme', newTheme);
-}
+    // Enhanced 3D Tilt Effect
+    projectCards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width;
+            const y = (e.clientY - rect.top) / rect.height;
+            const tiltX = (y - 0.5) * 15;
+            const tiltY = (0.5 - x) * 15;
+            const shadowColor = body.getAttribute('data-theme') === 'dark' ? 'rgba(155, 89, 182, 0.6)' : 'rgba(155, 89, 182, 0.4)';
 
-notifyIframe(newTheme);
-}
+            card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.02)`;
+            card.style.boxShadow = `0 15px 45px ${shadowColor}, 0 0 10px rgba(255, 255, 255, 0.1)`;
+        });
 
-window.onload = () => {
-notifyIframe(body.getAttribute('data-theme'));
-};
-
-themeToggle.addEventListener('click', toggleTheme);
-
-// Enhanced 3D Tilt Effect for all project cards
-projectCards.forEach(card => {
-card.addEventListener('mousemove', (e) => {
-const rect = card.getBoundingClientRect();
-const x = (e.clientX - rect.left) / rect.width;
-const y = (e.clientY - rect.top) / rect.height;
-
-const tiltX = (y - 0.5) * 15;
-const tiltY = (0.5 - x) * 15;
-
-const shadowColor = body.getAttribute('data-theme') === 'dark' ? 'rgba(155, 89, 182, 0.6)' : 'rgba(155, 89, 182, 0.4)';
-
-card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.02)`;
-card.style.boxShadow = `0 15px 45px ${shadowColor}, 0 0 10px rgba(255, 255, 255, 0.1)`;
-});
-
-card.addEventListener('mouseleave', () => {
-card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
-card.style.boxShadow = 'var(--glass-shadow)';
-});
-});
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+            card.style.boxShadow = 'var(--glass-shadow)';
+        });
+    });
 </script>
 
 </body>
