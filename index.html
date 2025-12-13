@@ -351,13 +351,16 @@
 
         .actions {
             margin-top: 25px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
         }
 
         .btn {
-            padding: 16px 35px;
+            padding: 16px 30px; /* Adjusted padding for two buttons */
             border: none;
             border-radius: 12px;
-            font-size: 1.15em;
+            font-size: 1.1em; /* Slightly smaller font for better fit */
             cursor: pointer;
             text-decoration: none;
             text-align: center;
@@ -372,6 +375,7 @@
             background: var(--gradient-start);
             color: white;
             box-shadow: 0 5px 15px rgba(155, 89, 182, 0.4);
+            flex-grow: 1; /* Allows buttons to share space */
         }
 
         .btn::before {
@@ -411,7 +415,8 @@
             .img-container { margin-bottom: 20px; }
             .project-info h2 { font-size: 2em; }
             .description { font-size: 1.05em; }
-            .btn { width: 100%; padding: 18px; }
+            .actions { justify-content: center; }
+            .btn { width: 100%; flex-grow: 0; padding: 18px; } /* Ensure buttons stack on mobile */
             header { flex-direction: column; gap: 15px; }
         }
 
@@ -451,7 +456,10 @@
             </p>
             <div class="actions">
                 <a href="https://discord.com/oauth2/authorize?client_id=1447632001346699374" target="_blank" class="btn btn-discord">
-                    Discord Sunucusuna Ekle!
+                    Sunucuna Ekle!
+                </a>
+                <a href="https://discord.com/oauth2/authorize?client_id=1449485846620278916" target="_blank" class="btn btn-discord">
+                    Uygulamalarına Ekle!
                 </a>
             </div>
         </div>
