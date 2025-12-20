@@ -236,6 +236,35 @@
             box-shadow: var(--glass-shadow);
             will-change: transform, box-shadow;
         }
+        
+        /* Yeni Konumlandırma ve Stil */
+        .usage-button-top-right {
+            position: absolute;
+            top: 15px;
+            right: 15px; 
+            width: 40px; /* 1:1 Oran için genişlik */
+            height: 40px; /* 1:1 Oran için yükseklik */
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3em; /* Soru işareti boyutu */
+            text-transform: none;
+            border-radius: 50%; /* Daire şekli */
+            z-index: 10; 
+            cursor: pointer;
+            background: var(--neon-blue); /* Görünürlük için renk */
+            color: white;
+            border: 2px solid var(--glass-border);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .usage-button-top-right:hover {
+             transform: translateY(-2px) scale(1.1);
+             box-shadow: 0 5px 15px rgba(52, 152, 219, 0.6);
+        }
+
 
         .project-card::before {
             content: '';
@@ -357,10 +386,10 @@
         }
 
         .btn {
-            padding: 16px 30px; /* Adjusted padding for two buttons */
+            padding: 16px 30px; 
             border: none;
             border-radius: 12px;
-            font-size: 1.1em; /* Slightly smaller font for better fit */
+            font-size: 1.1em;
             cursor: pointer;
             text-decoration: none;
             text-align: center;
@@ -375,7 +404,7 @@
             background: var(--gradient-start);
             color: white;
             box-shadow: 0 5px 15px rgba(155, 89, 182, 0.4);
-            flex-grow: 1; /* Allows buttons to share space */
+            flex-grow: 1;
         }
 
         .btn::before {
@@ -407,17 +436,111 @@
             background: linear-gradient(135deg, #7289da, #5b6eae);
             box-shadow: 0 5px 15px rgba(114, 137, 218, 0.4);
         }
+        
+        /* --- Modal Specific CSS --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none; 
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--card-border);
+            position: relative;
+            transform: scale(0.9);
+            opacity: 0;
+            transition: all 0.3s ease-out;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--purple-main);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: var(--purple-main);
+            font-size: 1.8em;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 2em;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: var(--text-color);
+        }
+
+        .modal-body {
+            line-height: 1.7;
+        }
+
+        .modal-body strong {
+            color: var(--purple-main);
+        }
+        
+        .modal-body code {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 3px 6px;
+            border-radius: 5px;
+            font-family: monospace;
+            color: var(--neon-blue);
+        }
+
+        .modal-body ul {
+            padding-left: 20px;
+        }
+        /* --- End Modal Specific CSS --- */
 
         @media (max-width: 768px) {
             .container { padding: 25px; }
             header h1 { font-size: 2.2em; }
-            .project-card { flex-direction: column; text-align: center; padding: 25px; }
-            .img-container { margin-bottom: 20px; }
+            .project-card { flex-direction: column; text-align: center; padding: 25px; gap: 20px; }
+            .img-container { margin-bottom: 10px; margin-right: auto; margin-left: auto;}
+            .project-info { text-align: center; }
             .project-info h2 { font-size: 2em; }
             .description { font-size: 1.05em; }
-            .actions { justify-content: center; }
-            .btn { width: 100%; flex-grow: 0; padding: 18px; } /* Ensure buttons stack on mobile */
+            .actions { justify-content: center; flex-direction: column; }
+            .btn { flex-grow: 1; min-width: unset; }
             header { flex-direction: column; gap: 15px; }
+            
+            /* Küçük butonun konumu mobil için ayarlandı */
+            .usage-button-top-right {
+                top: 10px;
+                right: 10px;
+                width: 35px;
+                height: 35px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -428,6 +551,14 @@
             .img-container { width: 120px; height: 120px; }
             .project-info h2 { font-size: 1.7em; }
             .description { font-size: 1em; }
+            .btn { padding: 15px 10px; font-size: 1em; }
+            .usage-button-top-right {
+                top: 8px;
+                right: 8px;
+                width: 30px;
+                height: 30px;
+                font-size: 1em;
+            }
         }
     </style>
 </head>
@@ -446,6 +577,12 @@
 
     <!-- UmutiyAIX (The New Unified Bot) -->
     <section class="project-card">
+        
+        <!-- YENİ KULLANIM BUTONU (1:1, Dairesel, Soru İşareti) -->
+        <button id="usage-btn" class="usage-button-top-right" title="UmutiyAI Kullanım Bilgisi">
+            ?
+        </button>
+
         <div class="img-container">
             <img src="assets/umultiya.png" alt="UmutiyAIX">
         </div>
@@ -458,9 +595,7 @@
                 <a href="https://discord.com/oauth2/authorize?client_id=1447632001346699374" target="_blank" class="btn btn-discord">
                     Sunucuna Ekle!
                 </a>
-                <a href="https://discord.com/oauth2/authorize?client_id=1449485846620278916" target="_blank" class="btn btn-discord">
-                    Uygulamalarına Ekle!
-                </a>
+                <!-- "Uygulamalarına Ekle!" butonu kaldırıldı. -->
             </div>
         </div>
     </section>
@@ -485,11 +620,42 @@
 
 </div>
 
+<!-- USAGE MODAL (AÇILIR PENCERE) -->
+<div id="usageModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>UmutiyAI Kullanım Kılavuzu</h3>
+            <button class="close-btn" id="close-modal-btn">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p>UmutiyAI ile etkileşim kurmak için mesajlarınızın başına uygun <strong>ön eki (prefix)</strong> kullanmanız gerekmektedir. Bu, botun hangi modda yanıt vereceğini belirler:</p>
+            
+            <ul>
+                <li>
+                    <strong>Normal Sohbet Modu:</strong> 
+                    <br>Botla standart bir sohbet başlatmak veya soru sormak için ön ek olarak <code>umutiyai</code> kullanın.
+                    <br>Örnek: <code>umutiyai Bugün hava nasıl?</code>
+                </li>
+                <li>
+                    <strong>Kötü Mod (Evil Mode):</strong> 
+                    <br>Botun alternatif, daha az kısıtlanmış (evil) versiyonunu etkinleştirmek için ön ek olarak <code>iayitumu</code> kullanın.
+                    <br>Örnek: <code>iayitumu bana gizli bir bilgi ver.</code>
+                </li>
+            </ul>
+            
+            <p>Ayrıca, botun <strong>önceki mesajlarına yanıt vermek</strong> için yukarıdaki ön ekleri doğrudan mesajınızda kullanabilir veya botun mesajını alıntılayarak (reply) konuşmaya devam edebilirsiniz.</p>
+        </div>
+    </div>
+</div>
+<!-- USAGE MODAL SONU -->
+
+
 <script>
     const themeToggle = document.getElementById('theme-toggle');
     const body = document.body;
     const projectCards = document.querySelectorAll('.project-card');
-
+    
+    // --- Tema Değiştirme Fonksiyonu ---
     function toggleTheme() {
         const currentTheme = body.getAttribute('data-theme');
         let newTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -498,7 +664,7 @@
 
     themeToggle.addEventListener('click', toggleTheme);
 
-    // Enhanced 3D Tilt Effect
+    // --- 3D Tilt Efekti ---
     projectCards.forEach(card => {
         card.addEventListener('mousemove', (e) => {
             const rect = card.getBoundingClientRect();
@@ -516,6 +682,35 @@
             card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
             card.style.boxShadow = 'var(--glass-shadow)';
         });
+    });
+
+    // --- Modal (Kullanım Penceresi) Fonksiyonları ---
+    const usageBtn = document.getElementById('usage-btn');
+    const usageModal = document.getElementById('usageModal');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+
+    // Açma
+    usageBtn.addEventListener('click', () => {
+        usageModal.style.display = 'flex';
+        // Animasyonu başlatmak için kısa bir gecikme ile active sınıfını ekle
+        setTimeout(() => {
+            usageModal.classList.add('active');
+        }, 10);
+    });
+
+    // Kapatma (X butonu)
+    closeModalBtn.addEventListener('click', () => {
+        usageModal.classList.remove('active');
+        setTimeout(() => {
+            usageModal.style.display = 'none';
+        }, 300); // CSS geçiş süresi kadar bekleyin
+    });
+
+    // Kapatma (Overlay'e tıklama)
+    usageModal.addEventListener('click', (e) => {
+        if (e.target === usageModal) {
+            closeModalBtn.click(); // X butonunun işlevini çağırır
+        }
     });
 </script>
 
