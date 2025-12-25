@@ -6,6 +6,8 @@
     <title>UmutiyAIX Chat | PC Master Race</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/tokyo-night-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
     <style>
         :root {
             --purple-main: #9b59b6;
@@ -86,7 +88,7 @@
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        #chat-box { flex-grow: 1; overflow-y: auto; padding: 30px 15%; display: flex; flex-direction: column; gap: 25px; }
+        #chat-box { flex-grow: 1; overflow-y: auto; padding: 30px 15%; display: flex; flex-direction: column; gap: 25px; scroll-behavior: smooth;}
 
         .message { display: flex; gap: 18px; max-width: 900px; width: 100%; margin: 0 auto; animation: fadeIn 0.4s; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -102,12 +104,13 @@
             line-height: 1.6; font-size: 1em; color: var(--text-color);
             background: var(--glass-bg); padding: 15px 20px; border-radius: 0 15px 15px 15px;
             border: 1px solid var(--glass-border); width: 100%;
+            overflow-wrap: break-word;
         }
         .user .content { border-radius: 15px 0 15px 15px; background: rgba(52, 152, 219, 0.1); }
 
-        .content pre { background: #000; padding: 15px; border-radius: 8px; overflow-x: auto; margin: 10px 0; }
-        .content code { font-family: monospace; color: #e74c3c; background: rgba(0,0,0,0.2); padding: 2px 4px; border-radius: 4px; }
-        .content pre code { color: #fff; background: none; padding: 0; }
+        .content pre { background: #0d0d17; padding: 15px; border-radius: 8px; overflow-x: auto; margin: 10px 0; border: 1px solid var(--glass-border); }
+        .content code { font-family: 'Consolas', monospace; font-size: 0.9em; }
+        .content p { margin: 8px 0; }
 
         .input-area { padding: 20px 15% 40px; background: linear-gradient(to top, var(--bg-primary) 60%, transparent); }
         .input-wrapper {
@@ -125,8 +128,9 @@
         .send-btn {
             background: var(--purple-main); color: white; border: none; width: 42px; height: 42px;
             border-radius: 12px; cursor: pointer; transition: 0.2s; margin-left: 10px;
+            display: flex; align-items: center; justify-content: center;
         }
-        .send-btn:disabled { opacity: 0.4; }
+        .send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
         @media (max-width: 768px) { aside { display: none; } #chat-box, .input-area { padding-left: 20px; padding-right: 20px; } }
     </style>
@@ -162,12 +166,17 @@
         const userInput = document.getElementById('user-input');
         const sendBtn = document.getElementById('send-btn');
 
-        // Session ID yönetimi
-        let sessionId = localStorage.getItem('chat_session_id');
-        if (!sessionId) {
-            sessionId = 'user_' + Math.random().toString(36).substr(2, 9);
-            localStorage.setItem('chat_session_id', sessionId);
-        }
+        // Marked ayarları: Kod bloklarını highlight.js ile renklendir
+        marked.setOptions({
+            highlight: function(code, lang) {
+                const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+                return hljs.highlight(code, { language }).value;
+            },
+            breaks: true
+        });
+
+        let sessionId = localStorage.getItem('chat_session_id') || ('user_' + Math.random().toString(36).substr(2, 9));
+        localStorage.setItem('chat_session_id', sessionId);
 
         window.onload = () => {
             appendMessage("Session aktif. Hafıza açık bro, neyi hatırlamamı istersin? 🧠", false);
@@ -189,17 +198,14 @@
                 const response = await fetch(API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        message: message,
-                        session_id: sessionId 
-                    })
+                    body: JSON.stringify({ message, session_id: sessionId })
                 });
 
                 if (!response.ok) throw new Error("Server Error");
 
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder();
-                aiContentDiv.innerText = "";
+                aiContentDiv.innerHTML = "";
 
                 while (true) {
                     const { done, value } = await reader.read();
@@ -207,16 +213,21 @@
 
                     const chunk = decoder.decode(value);
                     const lines = chunk.split("\n");
+                    
                     for (const line of lines) {
                         if (line.startsWith("data: ")) {
-                            fullText += line.replace("data: ", "");
+                            const cleanLine = line.replace("data: ", "");
+                            fullText += cleanLine;
+                            // Markdown render
                             aiContentDiv.innerHTML = marked.parse(fullText);
+                            // Kod bloklarını tekrar tara
+                            aiContentDiv.querySelectorAll('pre code').forEach((el) => hljs.highlightElement(el));
                             chatBox.scrollTop = chatBox.scrollHeight;
                         }
                     }
                 }
             } catch (err) {
-                aiContentDiv.innerHTML = `<span style="color:#ff7675">Hata: Sunucu patladı ya da tünel kapalı!</span>`;
+                aiContentDiv.innerHTML = `<span style="color:#ff7675; font-weight:bold;">[SİSTEM_HATASI]: Sunucu bağlantısı koptu. Tünel aktif mi kontrol et kanka. 🔌</span>`;
             } finally {
                 sendBtn.disabled = false;
                 userInput.focus();
@@ -228,11 +239,23 @@
             msgDiv.className = `message ${isUser ? 'user' : ''}`;
             msgDiv.innerHTML = `
                 <div class="avatar ${isUser ? 'user-avatar' : 'ai-avatar'}">${isUser ? 'ME' : 'AI'}</div>
-                <div class="content">${isUser ? text : marked.parse(text)}</div>
+                <div class="content">${isUser ? escapeHtml(text) : marked.parse(text)}</div>
             `;
             chatBox.appendChild(msgDiv);
             chatBox.scrollTop = chatBox.scrollHeight;
+            
+            // AI mesajıysa highlight uygula
+            if(!isUser) {
+                msgDiv.querySelectorAll('pre code').forEach((el) => hljs.highlightElement(el));
+            }
+            
             return msgDiv.querySelector('.content');
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
 
         function clearHistory() {
@@ -241,8 +264,17 @@
         }
 
         sendBtn.addEventListener('click', sendMsg);
-        userInput.addEventListener('keydown', (e) => { if(e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMsg(); } });
-        userInput.addEventListener('input', function() { this.style.height = 'auto'; this.style.height = (this.scrollHeight) + 'px'; });
+        userInput.addEventListener('keydown', (e) => { 
+            if(e.key === 'Enter' && !e.shiftKey) { 
+                e.preventDefault(); 
+                sendMsg(); 
+            } 
+        });
+        
+        userInput.addEventListener('input', function() { 
+            this.style.height = 'auto'; 
+            this.style.height = (this.scrollHeight) + 'px'; 
+        });
 
         function toggleTheme() {
             const b = document.body;
