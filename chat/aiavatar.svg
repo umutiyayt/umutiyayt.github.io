@@ -1,0 +1,21 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="evilGrad" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+      <stop offset="0%" stop-color="#4a0000" />
+      <stop offset="100%" stop-color="#000000" />
+    </radialGradient>
+    
+    <linearGradient id="iconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff0000" />
+      <stop offset="100%" stop-color="#8b0000" />
+    </linearGradient>
+  </defs>
+
+  <circle cx="100" cy="100" r="95" fill="url(#evilGrad)" stroke="#333" stroke-width="2"/>
+
+  <path d="M70 60L130 60L100 100L140 140H60L85 100L60 75" 
+        fill="url(#iconGrad)" 
+        fill-rule="evenodd"/>
+        
+  <rect x="95" y="95" width="10" height="10" fill="#fff" transform="rotate(45 100 100)" />
+</svg>

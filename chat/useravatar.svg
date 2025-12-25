@@ -1,0 +1,22 @@
+<svg width="512" height="512" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="evilAvatarGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FF0000" />
+      <stop offset="100%" stop-color="#200000" />
+    </radialGradient>
+
+    <mask id="circleMask">
+      <circle cx="100" cy="100" r="85" fill="white" />
+    </mask>
+  </defs>
+
+  <rect width="200" height="200" fill="#000000"/>
+
+  <g mask="url(#circleMask)">
+    <circle cx="100" cy="100" r="85" fill="url(#evilAvatarGrad)" opacity="0.9"/>
+    
+    <circle cx="100" cy="200" r="70" fill="url(#evilAvatarGrad)"/>
+    
+    <circle cx="100" cy="100" r="40" fill="url(#evilAvatarGrad)"/>
+  </g>
+</svg>
