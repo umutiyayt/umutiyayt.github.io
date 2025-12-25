@@ -146,6 +146,8 @@
             padding: 14px 20px; border-radius: 18px; 
             border: 1px solid var(--border); line-height: 1.6; 
             word-wrap: break-word;
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
         .message.user .content { background: var(--msg-user); color: white; border-bottom-right-radius: 4px; }
         .message.ai .content { background: var(--msg-ai); border-bottom-left-radius: 4px; }
@@ -308,6 +310,9 @@
             
             chatBox.appendChild(div);
             chatBox.scrollTop = chatBox.scrollHeight;
+            // Fade in the content
+            const content = div.querySelector('.content');
+            setTimeout(() => content.style.opacity = '1', 10);
             return div;
         }
 
