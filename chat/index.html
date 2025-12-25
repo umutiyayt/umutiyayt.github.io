@@ -74,6 +74,45 @@
         }
         .btn-remove:hover { background: #ef4444; color: white; }
 
+        /* Confirmation Modal Styles */
+        .confirm-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        .confirm-modal.active { display: flex; }
+        .confirm-content {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 30px;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        .confirm-content p { margin-bottom: 20px; font-size: 1.1rem; }
+        .confirm-btns { display: flex; gap: 15px; justify-content: center; }
+        .confirm-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        .confirm-yes { background: #ef4444; color: white; }
+        .confirm-yes:hover { background: #dc2626; }
+        .confirm-no { background: var(--glass); color: var(--text); border: 1px solid var(--border); }
+        .confirm-no:hover { background: var(--border); }
+
         .icon-box { position: relative; width: 20px; height: 20px; }
         .sun-icon, .moon-icon { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
@@ -150,7 +189,7 @@
     <header>
         <a href="https://umutiya.netlify.app/chat/" class="brand">Elivu <span>AI</span></a>
         <div class="nav-btns">
-            <button class="btn-remove" onclick="clearChat()">Remove Chat</button>
+            <button class="btn-remove" onclick="showConfirmModal()" id="remove-btn">Remove Chat</button>
             <button class="btn-small" onclick="toggleLang()" id="lang-btn">TR</button>
             <button class="theme-btn" onclick="toggleTheme()" title="Toggle Theme">
                 <div class="icon-box">
@@ -170,6 +209,17 @@
         </div>
     </div>
 
+    <!-- Confirmation Modal -->
+    <div id="confirm-modal" class="confirm-modal">
+        <div class="confirm-content">
+            <p id="confirm-text">Are you sure you want to remove the chat?</p>
+            <div class="confirm-btns">
+                <button class="confirm-btn confirm-yes" onclick="confirmClear()">Yes</button>
+                <button class="confirm-btn confirm-no" onclick="hideConfirmModal()">No</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const API_URL = "https://burlington-them-soa-cure.trycloudflare.com/ask";
         const chatBox = document.getElementById('chat-box');
@@ -179,8 +229,8 @@
 
         let currentLang = 'en';
         const i18n = {
-            en: { placeholder: "Ask Elivu anything...", lang: "TR" },
-            tr: { placeholder: "Elivu'ya bir şey sor...", lang: "EN" }
+            en: { placeholder: "Ask Elivu anything...", lang: "TR", removeChat: "Remove Chat", confirmText: "Are you sure you want to remove the chat?" },
+            tr: { placeholder: "Elivu'ya bir şey sor...", lang: "EN", removeChat: "Sohbeti Temizle", confirmText: "Sohbeti temizlemek istediğinizden emin misiniz?" }
         };
 
         marked.setOptions({ 
@@ -267,6 +317,19 @@
             localStorage.setItem('elivu_session', sessionId);
         }
 
+        function showConfirmModal() {
+            document.getElementById('confirm-modal').classList.add('active');
+        }
+
+        function hideConfirmModal() {
+            document.getElementById('confirm-modal').classList.remove('active');
+        }
+
+        function confirmClear() {
+            clearChat();
+            hideConfirmModal();
+        }
+
         function renderCode(el) {
             el.querySelectorAll('pre code').forEach(block => hljs.highlightElement(block));
         }
@@ -279,6 +342,8 @@
         function toggleLang() {
             currentLang = currentLang === 'en' ? 'tr' : 'en';
             document.getElementById('lang-btn').innerText = i18n[currentLang].lang;
+            document.getElementById('remove-btn').innerText = i18n[currentLang].removeChat;
+            document.getElementById('confirm-text').innerText = i18n[currentLang].confirmText;
             userInput.placeholder = i18n[currentLang].placeholder;
         }
 
