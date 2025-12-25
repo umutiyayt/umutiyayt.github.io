@@ -128,7 +128,7 @@
             display: flex; flex-direction: column; gap: 32px;
             opacity: 0; transform: translateY(20px);
         }
-        body.active #chat-box { opacity: 1; transform: translateY(0); }
+        body.active #chat-box { opacity: 1; transform: translateY(0); padding-bottom: 120px; }
 
         .message { display: flex; gap: 16px; animation: msgIn 0.4s ease forwards; max-width: 85%; }
         .message.user { flex-direction: row-reverse; align-self: flex-end; }
@@ -181,6 +181,7 @@
             .input-container { width: 90%; }
             body.active .input-container { width: 95%; top: calc(100% - 70px); }
             #chat-box { padding: 20px 5%; }
+            body.active #chat-box { padding-bottom: 100px; }
         }
     </style>
 </head>
