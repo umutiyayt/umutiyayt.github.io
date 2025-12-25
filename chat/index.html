@@ -3,107 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elivu AI | Ultimate Intelligence</title>
+    <title>Elivu AI | Professional Intelligence</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    <link href="[https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap](https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap)" rel="stylesheet">
-    <script src="[https://cdn.jsdelivr.net/npm/marked/marked.min.js](https://cdn.jsdelivr.net/npm/marked/marked.min.js)"></script>
-    <link rel="stylesheet" href="[https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/tokyo-night-dark.min.css](https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/tokyo-night-dark.min.css)">
-    <script src="[https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js](https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js)"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/tokyo-night-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
     <style>
         :root {
+            --primary: #6366f1;
             --purple-main: #9b59b6;
-            --purple-accent: #8e44ad;
             --neon-blue: #3498db;
-            --bg-primary: #121220;
-            --bg-secondary: #1e1e2f;
-            --text-color: #f0f6f6;
-            --text-secondary: #a0a0c0;
-            --glass-bg: rgba(30, 30, 47, 0.6);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --glass: rgba(15, 23, 42, 0.8);
+            --border: rgba(255, 255, 255, 0.08);
         }
 
         [data-theme="light"] {
-            --bg-primary: #f0f2f5;
-            --bg-secondary: #ffffff;
-            --text-color: #1c1e21;
-            --text-secondary: #555577;
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(0, 0, 0, 0.08);
+            --bg-dark: #f1f5f9;
+            --bg-card: #ffffff;
+            --text-main: #1e293b;
+            --glass: rgba(255, 255, 255, 0.8);
+            --border: rgba(0, 0, 0, 0.1);
         }
 
-        * { box-sizing: border-box; transition: background-color 0.4s, color 0.4s; }
+        * { box-sizing: border-box; margin: 0; padding: 0; transition: all 0.3s ease; }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-color);
-            height: 100vh; margin: 0; display: flex; flex-direction: column; overflow: hidden;
-        }
-
-        /* Background Effects from uxp.css */
-        body::before {
-            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 10% 20%, rgba(155, 89, 182, 0.1) 0%, transparent 20%),
-                        radial-gradient(circle at 90% 80%, rgba(52, 152, 219, 0.1) 0%, transparent 20%);
-            z-index: -1;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-main);
+            height: 100vh; display: flex; flex-direction: column; overflow: hidden;
         }
 
         header {
-            height: 80px; padding: 0 40px; display: flex; justify-content: space-between; align-items: center;
-            background: var(--glass-bg); backdrop-filter: blur(12px); border-bottom: 1px solid var(--glass-border);
+            height: 70px; padding: 0 40px; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--border); backdrop-filter: blur(15px); background: var(--glass); z-index: 100;
         }
 
-        .brand { font-size: 1.8em; font-weight: 600; background: linear-gradient(135deg, #9b59b6, #3498db); -webkit-background-clip: text; color: transparent; }
+        .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 1.4rem; font-family: 'Poppins'; }
+        .brand span { color: var(--primary); }
 
-        /* Theme Toggle Morphing Style */
+        /* Morphing Theme Toggle Entegrasyonu */
         .theme-toggle {
-            cursor: pointer; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;
-            border-radius: 50%; background: var(--glass-bg); border: 1px solid var(--glass-border); position: relative;
+            cursor: pointer; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; background: var(--border); position: relative; border: none;
         }
-
-        .theme-icon-container { position: relative; width: 24px; height: 24px; }
-        .sun { background: #f1c40f; border-radius: 50%; box-shadow: 0 -12px 0 0.5px #f39c12, 0 12px 0 0.5px #f39c12, -12px 0 0 0.5px #f39c12, 12px 0 0 0.5px #f39c12; transition: all 0.6s cubic-bezier(0.45, 0.05, 0.55, 0.95); }
-        .moon { background: #f0f6f6; border-radius: 50%; box-shadow: inset 7px -7px 0 1px #a0a0c0; transform: scale(0); opacity: 0; transition: all 0.6s cubic-bezier(0.45, 0.05, 0.55, 0.95); position: absolute; top:0; left:0; width:100%; height:100%; }
+        .theme-icon-container { position: relative; width: 20px; height: 20px; }
+        .sun { background: #f1c40f; border-radius: 50%; width: 100%; height: 100%; box-shadow: 0 -8px 0 0.5px #f39c12, 0 8px 0 0.5px #f39c12, -8px 0 0 0.5px #f39c12, 8px 0 0 0.5px #f39c12; transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .moon { background: #f8fafc; border-radius: 50%; width: 100%; height: 100%; box-shadow: inset 6px -6px 0 1px #94a3b8; transform: scale(0); opacity: 0; position: absolute; top:0; left:0; transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
         
-        [data-theme="dark"] .sun { transform: scale(1); opacity: 1; }
         [data-theme="light"] .sun { transform: rotate(90deg) scale(0); opacity: 0; }
-        [data-theme="light"] .moon { transform: scale(1); opacity: 1; background: #1c1e21; box-shadow: inset 7px -7px 0 1px #555577; }
+        [data-theme="light"] .moon { transform: scale(1); opacity: 1; background: #1e293b; box-shadow: inset 6px -6px 0 1px #475569; }
 
-        #chat-box { flex-grow: 1; overflow-y: auto; padding: 40px 15%; display: flex; flex-direction: column; gap: 30px; }
+        #chat-box { flex-grow: 1; overflow-y: auto; padding: 40px 20%; display: flex; flex-direction: column; gap: 35px; scroll-behavior: smooth; }
 
-        /* Code Blocks & Copy/Preview Buttons */
-        .content pre { position: relative; background: #0d0d17; border-radius: 12px; padding: 15px; border: 1px solid var(--glass-border); margin: 15px 0; }
-        .copy-btn, .preview-btn {
-            position: absolute; top: 10px; right: 10px; background: var(--purple-main); color: white;
-            border: none; padding: 5px 12px; border-radius: 6px; cursor: pointer; font-size: 0.75em; opacity: 0.8;
-        }
-        .preview-btn { right: 80px; background: var(--neon-blue); }
-        .copy-btn:hover, .preview-btn:hover { opacity: 1; }
+        .message { display: flex; gap: 24px; max-width: 1000px; width: 100%; margin: 0 auto; animation: slideUp 0.4s ease-out; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        .preview-frame { width: 100%; height: 300px; border: 1px solid var(--glass-border); border-radius: 8px; margin-top: 10px; background: white; display: none; }
+        .avatar { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 2px solid var(--primary); }
 
-        .message { display: flex; gap: 20px; animation: slideUp 0.4s ease; max-width: 1000px; width: 100%; margin: 0 auto; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        .avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--neon-blue); object-fit: cover; }
-        .content { line-height: 1.8; font-size: 1em; flex-grow: 1; }
-
-        .input-area { padding: 30px 15%; background: linear-gradient(to top, var(--bg-primary) 80%, transparent); }
-        .input-wrapper { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; padding: 10px 20px; display: flex; align-items: flex-end; backdrop-filter: blur(20px); }
-        textarea { flex-grow: 1; background: transparent; border: none; color: var(--text-color); font-family: inherit; font-size: 1.1em; padding: 10px; outline: none; resize: none; max-height: 200px; }
+        .content { flex-grow: 1; line-height: 1.8; font-size: 0.95rem; }
         
-        .btn-danger { background: #e74c3c; color: white; padding: 10px 20px; border-radius: 10px; border: none; cursor: pointer; font-weight: 600; margin-left: 10px; }
+        /* Code Box Improvements */
+        .content pre { position: relative; background: #0f172a; padding: 18px; border-radius: 12px; margin: 15px 0; border: 1px solid var(--border); }
+        .copy-btn, .preview-btn {
+            position: absolute; top: 8px; right: 8px; background: var(--primary); color: white;
+            border: none; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 0.7rem; font-weight: 600;
+        }
+        .preview-btn { right: 75px; background: var(--neon-blue); }
+        .preview-frame { width: 100%; height: 350px; border: 1px solid var(--border); border-radius: 12px; margin-top: 15px; display: none; background: white; }
 
-        @media (max-width: 768px) { #chat-box, .input-area { padding: 20px 5%; } }
+        .input-area { padding: 20px 20% 40px; background: linear-gradient(to top, var(--bg-dark) 80%, transparent); }
+        .input-wrapper { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 12px 20px; display: flex; align-items: flex-end; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.3); }
+        
+        textarea { flex-grow: 1; background: transparent; border: none; color: var(--text-main); font-family: inherit; font-size: 1rem; padding: 8px; outline: none; resize: none; max-height: 180px; }
+        
+        .nav-btns { display: flex; gap: 12px; align-items: center; }
+        .btn { padding: 8px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; border: none; }
+        .btn-danger { background: rgba(231, 76, 60, 0.15); color: #e74c3c; border: 1px solid rgba(231, 76, 60, 0.2); }
+        .btn-danger:hover { background: #e74c3c; color: white; }
+
+        @media (max-width: 1024px) { #chat-box, .input-area { padding-left: 5%; padding-right: 5%; } }
     </style>
 </head>
 <body data-theme="dark">
 
     <header>
-        <div class="brand">Elivu AI</div>
-        <div style="display: flex; align-items: center; gap: 15px;">
-            <button class="btn-danger" id="del-btn" onclick="confirmDelete()">Remove Chat</button>
+        <div class="brand">
+            <img src="favicon.svg" width="28" alt="logo">
+            Elivu <span>AI</span>
+        </div>
+        <div class="nav-btns">
+            <button class="btn" onclick="toggleLang()" id="lang-btn">TR</button>
+            <button class="btn btn-danger" onclick="confirmDelete()" id="del-btn">Remove Chat</button>
             <button class="theme-toggle" onclick="toggleTheme()">
                 <div class="theme-icon-container">
                     <div class="sun"></div>
@@ -117,23 +112,29 @@
 
     <div class="input-area">
         <div class="input-wrapper">
-            <textarea id="user-input" rows="1" placeholder="Elivu AI is listening..."></textarea>
-            <button id="send-btn" style="background: var(--purple-main); color:white; border:none; width:45px; height:45px; border-radius:12px; cursor:pointer;">➤</button>
+            <textarea id="user-input" rows="1" placeholder="Type a message..."></textarea>
+            <button id="send-btn" style="background:var(--primary); color:white; border:none; width:40px; height:40px; border-radius:10px; cursor:pointer; margin-left:10px;">➤</button>
         </div>
     </div>
 
     <script>
-        const API_URL = "[https://burlington-them-soa-cure.trycloudflare.com/ask](https://burlington-them-soa-cure.trycloudflare.com/ask)";
+        const API_URL = "https://burlington-them-soa-cure.trycloudflare.com/ask";
         const chatBox = document.getElementById('chat-box');
         const userInput = document.getElementById('user-input');
         const sendBtn = document.getElementById('send-btn');
-        let sessionId = localStorage.getItem('elivu_v2') || ('el_' + Math.random().toString(36).substr(2, 9));
-        localStorage.setItem('elivu_v2', sessionId);
+        
+        let currentLang = 'en';
+        const i18n = {
+            en: { welcome: "Welcome back. How can Elivu assist you today?", delConfirm: "DANGER: This action is permanent. Wipe chat memory?", lang: "TR", placeholder: "Ask anything..." },
+            tr: { welcome: "Tekrar hoş geldin. Elivu bugün sana nasıl yardımcı olabilir?", delConfirm: "TEHLİKE: Bu işlem kalıcıdır. Hafızayı silmek istediğine emin misin?", lang: "EN", placeholder: "Bir şeyler sor..." }
+        };
 
-        marked.setOptions({
-            highlight: (code, lang) => hljs.highlightAuto(code).value,
-            breaks: true
-        });
+        marked.setOptions({ highlight: (code) => hljs.highlightAuto(code).value, breaks: true });
+
+        let sessionId = localStorage.getItem('elivu_pro') || ('el_' + Math.random().toString(36).substr(2, 9));
+        localStorage.setItem('elivu_pro', sessionId);
+
+        window.onload = () => { appendMessage(i18n[currentLang].welcome, false); updateUI(); };
 
         async function sendMsg() {
             const msg = userInput.value.trim();
@@ -144,7 +145,7 @@
             userInput.style.height = 'auto';
             sendBtn.disabled = true;
 
-            const aiNode = appendMessage("", false, true);
+            const aiObj = appendMessage("", false, true);
             let fullText = "";
 
             try {
@@ -156,7 +157,7 @@
 
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder();
-                aiNode.content.innerHTML = "";
+                aiObj.content.innerHTML = "";
 
                 while (true) {
                     const { done, value } = await reader.read();
@@ -166,87 +167,70 @@
                     for (const line of lines) {
                         if (line.startsWith("data: ")) {
                             fullText += line.replace("data: ", "");
-                            aiNode.content.innerHTML = marked.parse(fullText);
-                            processCodeBlocks(aiNode.content);
+                            aiObj.content.innerHTML = marked.parse(fullText);
+                            renderCodeExtras(aiObj.content);
                             chatBox.scrollTop = chatBox.scrollHeight;
                         }
                     }
                 }
-                aiNode.img.src = "aiavatar.svg";
+                aiObj.img.src = "aiavatar.svg";
             } catch (e) {
-                aiNode.img.src = "error.svg";
-                aiNode.content.innerText = "Error: Connection lost.";
-            } finally {
-                sendBtn.disabled = false;
-            }
+                aiObj.img.src = "error.svg";
+                aiObj.content.innerHTML = `<span style="color:#ef4444">Connection Error. Is the tunnel active?</span>`;
+            } finally { sendBtn.disabled = false; }
         }
 
         function appendMessage(text, isUser, isLoading = false) {
             const div = document.createElement('div');
             div.className = 'message';
             const src = isUser ? "useravatar.svg" : (isLoading ? "loading.svg" : "aiavatar.svg");
-            div.innerHTML = `
-                <img src="${src}" class="avatar">
-                <div class="content">${isUser ? text : marked.parse(text)}</div>
-            `;
+            div.innerHTML = `<img src="${src}" class="avatar"><div class="content">${isUser ? escapeHtml(text) : marked.parse(text)}</div>`;
             chatBox.appendChild(div);
             chatBox.scrollTop = chatBox.scrollHeight;
-            if(!isUser) processCodeBlocks(div.querySelector('.content'));
+            if(!isUser) renderCodeExtras(div.querySelector('.content'));
             return { content: div.querySelector('.content'), img: div.querySelector('.avatar') };
         }
 
-        function processCodeBlocks(container) {
+        function renderCodeExtras(container) {
             container.querySelectorAll('pre').forEach(pre => {
                 if (pre.querySelector('.copy-btn')) return;
-
                 const code = pre.querySelector('code');
+                
                 const copyBtn = document.createElement('button');
                 copyBtn.className = 'copy-btn';
                 copyBtn.innerText = 'Copy';
-                copyBtn.onclick = () => {
-                    navigator.clipboard.writeText(code.innerText);
-                    copyBtn.innerText = 'Copied!';
-                    setTimeout(() => copyBtn.innerText = 'Copy', 2000);
-                };
+                copyBtn.onclick = () => { navigator.clipboard.writeText(code.innerText); copyBtn.innerText = 'Done!'; setTimeout(()=>copyBtn.innerText='Copy', 2000); };
                 pre.appendChild(copyBtn);
 
-                // HTML Preview Support
                 if (code.className.includes('language-html')) {
-                    const previewBtn = document.createElement('button');
-                    previewBtn.className = 'preview-btn';
-                    previewBtn.innerText = 'Preview';
+                    const pBtn = document.createElement('button');
+                    pBtn.className = 'preview-btn';
+                    pBtn.innerText = 'Preview';
                     const frame = document.createElement('iframe');
                     frame.className = 'preview-frame';
-                    
-                    previewBtn.onclick = () => {
-                        const isHidden = frame.style.display === 'none' || !frame.style.display;
-                        frame.style.display = isHidden ? 'block' : 'none';
-                        if(isHidden) {
-                            frame.srcdoc = code.innerText;
-                        }
+                    pBtn.onclick = () => { 
+                        const hide = frame.style.display === 'block';
+                        frame.style.display = hide ? 'none' : 'block';
+                        if(!hide) frame.srcdoc = code.innerText;
                     };
-                    pre.appendChild(previewBtn);
+                    pre.appendChild(pBtn);
                     pre.after(frame);
                 }
                 hljs.highlightElement(code);
             });
         }
 
-        function toggleTheme() {
-            const b = document.body;
-            const theme = b.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-            b.setAttribute('data-theme', theme);
+        function toggleTheme() { document.body.setAttribute('data-theme', document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); }
+        function toggleLang() { currentLang = currentLang === 'en' ? 'tr' : 'en'; updateUI(); }
+        function updateUI() { 
+            document.getElementById('lang-btn').innerText = i18n[currentLang].lang;
+            userInput.placeholder = i18n[currentLang].placeholder;
         }
-
-        function confirmDelete() {
-            if(confirm("DANGER: This will wipe all memory. Continue?")) {
-                localStorage.removeItem('elivu_v2');
-                location.reload();
-            }
-        }
+        function confirmDelete() { if(confirm(i18n[currentLang].delConfirm)) { localStorage.removeItem('elivu_pro'); location.reload(); } }
+        function escapeHtml(t) { const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
 
         sendBtn.onclick = sendMsg;
-        userInput.onkeydown = (e) => { if(e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMsg(); } };
+        userInput.onkeydown = (e) => { if(e.key==='Enter' && !e.shiftKey) { e.preventDefault(); sendMsg(); } };
         userInput.oninput = function() { this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px'; };
     </script>
 </body>
