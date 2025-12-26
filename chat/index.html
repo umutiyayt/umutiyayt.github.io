@@ -238,84 +238,60 @@
             word-wrap: break-word;
             opacity: 0;
             transition: opacity 0.5s ease;
+            white-space: pre-wrap;
+            word-break: break-word;
         }
         .message.user .content { background: var(--msg-user); color: white; border-bottom-right-radius: 4px; }
         .message.ai .content { background: var(--msg-ai); border-bottom-left-radius: 4px; }
 
-        .input-container {
-            position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 50%; transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+        /* Code block styling */
+        .content pre {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            margin: 12px 0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .content code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .code-block-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(139, 92, 246, 0.8);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: 500;
+            transition: all 0.3s ease;
             z-index: 10;
         }
-        body.active .input-container { top: calc(100% - 80px); width: 60%; }
 
-        .input-wrapper {
-            background: var(--glass); border: 1px solid var(--border);
-            backdrop-filter: blur(20px); border-radius: 24px;
-            padding: 12px 20px; display: flex; align-items: center; gap: 15px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        .copy-btn:hover {
+            background: rgba(139, 92, 246, 1);
+            transform: translateY(-2px);
         }
 
-        textarea { 
-            flex-grow: 1; background: transparent; border: none; 
-            color: var(--text); outline: none; resize: none; font-size: 1rem;
-            max-height: 200px;
+        .copy-btn.copied {
+            background: #2ecc71;
         }
 
-        .send-btn {
-            background: var(--primary); color: white; border: none;
-            width: 35px; height: 35px; border-radius: 50%; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; font-weight: bold;
-        }
-
-        @media (max-width: 768px) {
-            .input-container { width: 90%; }
-            body.active .input-container { width: 95%; top: calc(100% - 70px); }
-            #chat-box { padding: 20px 5%; }
-            body.active #chat-box { padding-bottom: 100px; }
-            .warning-content { padding: 30px 20px; max-width: 90%; }
-            .warning-title { font-size: 1.5rem; }
-        }
-
-        :root {
-          --purple-main: #9b59b6;
-          --purple-accent: #8e44ad;
-          --neon-blue: #3498db;
-          --green-online: #2ecc71;
-          --red-offline: #e74c3c;
-          --shadow-light: rgba(0, 0, 0, 0.15);
-          --shadow-dark: rgba(0, 0, 0, 0.3);
-          --bg-primary: #121220;
-          --bg-secondary: #1e1e2f;
-          --bg-card: rgba(30, 30, 47, 0.6);
-          --text-color: #f0f6f6;
-          --text-secondary: #a0a0c0;
-          --card-border: rgba(155, 89, 182, 0.3);
-          --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-          --button-hover-bg: #8e44ad;
-          --button-discord-bg: #7289da;
-          --gradient-start: linear-gradient(135deg, #9b59b6, #3498db);
-          --glass-bg: rgba(30, 30, 47, 0.6);
-          --glass-border: rgba(255, 255, 255, 0.08);
-          --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-        }
-
-        [data-theme="light"] {
-          --bg-primary: #f0f2f5;
-          --bg-secondary: #ffffff;
-          --bg-card: rgba(255, 255, 255, 0.8);
-          --text-color: #1c1e21;
-          --text-secondary: #555577;
-          --card-border: rgba(155, 89, 182, 0.2);
-          --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-          --button-hover-bg: #a676c7;
-          --button-discord-bg: #7289da;
-          --glass-bg: rgba(255, 255, 255, 0.7);
-          --glass-border: rgba(0, 0, 0, 0.08);
-          --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-
+        /* General styles */
         * {
           box-sizing: border-box;
         }
@@ -886,7 +862,7 @@
 
         marked.setOptions({ 
             highlight: (code) => hljs.highlightAuto(code).value,
-            breaks: true 
+            breaks: true
         });
 
         let sessionId = localStorage.getItem('elivu_session') || 'ex_' + Math.random().toString(36).slice(2);
@@ -951,16 +927,18 @@
             div.className = `message ${isUser ? 'user' : 'ai'}`;
             const avatarSrc = isUser ? 'useravatar.svg' : (isLoading ? 'loading.svg' : 'aiavatar.svg');
             
+            let content = isUser ? escapeHtml(text) : (text ? marked.parse(text) : '...');
+            
             div.innerHTML = `
                 <img src="${avatarSrc}" class="avatar" alt="avatar">
-                <div class="content">${isUser ? escapeHtml(text) : (text ? marked.parse(text) : '...')}</div>
+                <div class="content">${content}</div>
             `;
             
             chatBox.appendChild(div);
             chatBox.scrollTop = chatBox.scrollHeight;
             // Fade in the content
-            const content = div.querySelector('.content');
-            setTimeout(() => content.style.opacity = '1', 10);
+            const contentEl = div.querySelector('.content');
+            setTimeout(() => contentEl.style.opacity = '1', 10);
             return div;
         }
 
@@ -985,7 +963,36 @@
         }
 
         function renderCode(el) {
-            el.querySelectorAll('pre code').forEach(block => hljs.highlightElement(block));
+            el.querySelectorAll('pre').forEach(pre => {
+                // Highlight the code
+                const code = pre.querySelector('code');
+                if(code) hljs.highlightElement(code);
+                
+                // Add copy button wrapper if not already added
+                if(!pre.parentElement.classList.contains('code-block-wrapper')) {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'code-block-wrapper';
+                    pre.parentElement.insertBefore(wrapper, pre);
+                    wrapper.appendChild(pre);
+                    
+                    const copyBtn = document.createElement('button');
+                    copyBtn.className = 'copy-btn';
+                    copyBtn.innerText = 'Copy';
+                    copyBtn.onclick = (e) => {
+                        e.preventDefault();
+                        const text = code.innerText;
+                        navigator.clipboard.writeText(text).then(() => {
+                            copyBtn.innerText = 'Copied!';
+                            copyBtn.classList.add('copied');
+                            setTimeout(() => {
+                                copyBtn.innerText = 'Copy';
+                                copyBtn.classList.remove('copied');
+                            }, 2000);
+                        });
+                    };
+                    wrapper.appendChild(copyBtn);
+                }
+            });
         }
 
         function toggleTheme() {
