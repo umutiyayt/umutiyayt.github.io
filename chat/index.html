@@ -789,6 +789,43 @@
         [data-theme="dark"] .moon { transform: rotate(45deg) scale(0); opacity:0; }
         [data-theme="light"] .sun { transform: rotate(90deg) scale(0); opacity:0; }
         [data-theme="light"] .moon { transform: rotate(0deg) scale(1); opacity:1; }
+
+        /* New styles for fenced code block wrapper + copy button */
+        .fenced-code {
+            position: relative;
+            border-radius: 12px;
+            padding: 12px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+            margin: 12px 0;
+        }
+        .fenced-code pre {
+            margin: 0;
+            background: transparent !important;
+            color: var(--text-color);
+            white-space: pre-wrap;
+            word-break: break-word;
+            max-height: 420px;
+            overflow: auto;
+            padding-right: 48px;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--purple-main);
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 6px 16px rgba(155,89,182,0.25);
+        }
+        .copy-btn:active { transform: translateY(1px); }
+        .copy-btn.copied { background: var(--green-online); }
     </style>
 </head>
 <body data-theme="dark">
@@ -934,8 +971,8 @@
                     for(const line of lines) {
                         if(line.startsWith("data: ")) {
                             fullResponse += line.replace("data: ", "");
-                            aiContent.innerHTML = marked.parse(fullResponse);
-                            renderCode(aiDiv);
+                            // use enhanced renderer that auto-closes odd backticks and wraps code blocks with copy UI
+                            parseAndRender(fullResponse, aiDiv);
                             chatBox.scrollTop = chatBox.scrollHeight;
                         }
                     }
@@ -1005,6 +1042,56 @@
             const d = document.createElement('div');
             d.textContent = t;
             return d.innerHTML;
+        }
+
+        // Ensure an opened triple-backtick is temporarily closed so streaming renders code while in-progress
+        function prepareForMarking(text) {
+            const fenceCount = (text.match(/```/g) || []).length;
+            return (fenceCount % 2 === 1) ? (text + "\n```") : text;
+        }
+
+        // Replace default rendering with enhanced code-wrapping + copy button
+        function enhanceCodeBlocks(container) {
+            container.querySelectorAll('pre code').forEach(codeEl => {
+                const pre = codeEl.parentElement;
+                // already wrapped?
+                if (pre.parentElement && pre.parentElement.classList.contains('fenced-code')) return;
+
+                const wrapper = document.createElement('div');
+                wrapper.className = 'fenced-code';
+
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'copy-btn';
+                copyBtn.type = 'button';
+                copyBtn.innerText = 'Copy';
+
+                copyBtn.addEventListener('click', async () => {
+                    try {
+                        await navigator.clipboard.writeText(codeEl.textContent);
+                        copyBtn.innerText = 'Copied';
+                        copyBtn.classList.add('copied');
+                        setTimeout(() => { copyBtn.innerText = 'Copy'; copyBtn.classList.remove('copied'); }, 1200);
+                    } catch (err) {
+                        copyBtn.innerText = 'Failed';
+                        setTimeout(() => copyBtn.innerText = 'Copy', 1200);
+                    }
+                });
+
+                // Replace pre with wrapper containing the pre and button
+                pre.replaceWith(wrapper);
+                wrapper.appendChild(pre);
+                wrapper.appendChild(copyBtn);
+            });
+        }
+
+        // Use prepareForMarking and enhanceCodeBlocks so streamed partial code shows nicely
+        function parseAndRender(rawText, aiDiv) {
+            const prepared = prepareForMarking(rawText);
+            const html = marked.parse(prepared);
+            const content = aiDiv.querySelector('.content');
+            content.innerHTML = html;
+            enhanceCodeBlocks(aiDiv);
+            renderCode(aiDiv); // syntax highlighting
         }
 
         sendBtn.onclick = handleSend;
