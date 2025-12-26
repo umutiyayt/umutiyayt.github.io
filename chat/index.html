@@ -32,13 +32,17 @@
         * { box-sizing: border-box; margin: 0; padding: 0; transition: background 0.4s, color 0.4s, border 0.4s, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
 
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: var(--bg);
-            color: var(--text);
+            /* keep original page layout (column flow) — do not center everything */
+            font-family: 'Plus Jakarta Sans', 'Poppins', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-color);
             height: 100vh;
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            margin: 0;
+            transition: background-color 0.5s, color 0.5s;
+            position: relative;
         }
 
         header {
@@ -117,8 +121,15 @@
         .sun-icon, .moon-icon { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
             display: flex; align-items: center; justify-content: center;
-            transition: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transition: transform 0.6s cubic-bezier(0.45, 0.05, 0.55, 0.95), opacity 0.6s;
+            transform-origin: center;
         }
+
+        /* Morphing sun <-> moon for this page's theme button */
+        [data-theme="dark"] .theme-btn .sun-icon { transform: rotate(0deg) scale(1); opacity: 1; }
+        [data-theme="dark"] .theme-btn .moon-icon { transform: rotate(45deg) scale(0); opacity: 0; }
+        [data-theme="light"] .theme-btn .sun-icon { transform: rotate(90deg) scale(0); opacity: 0; }
+        [data-theme="light"] .theme-btn .moon-icon { transform: rotate(0deg) scale(1); opacity: 1; }
 
         [data-theme="dark"] .sun-icon { transform: translateY(40px); opacity: 0; }
         [data-theme="light"] .moon-icon { transform: translateY(-40px); opacity: 0; }
@@ -229,18 +240,17 @@
         }
 
         body {
-          font-family: 'Poppins', sans-serif;
+          /* keep original page layout (column flow) — do not center everything */
+          font-family: 'Plus Jakarta Sans', 'Poppins', sans-serif;
           background: var(--bg-primary);
           color: var(--text-color);
+          height: 100vh;
           display: flex;
-          justify-content: center;
-          align-items: center;
-          min-height: 100vh;
+          flex-direction: column;
+          overflow: hidden;
           margin: 0;
-          padding: 20px;
           transition: background-color 0.5s, color 0.5s;
           position: relative;
-          overflow-x: hidden;
         }
 
         body::before {
@@ -705,6 +715,13 @@
             font-size: 1em;
           }
         }
+
+        /* make sure the generic uxp toggle and page's toggle share the same morph behavior */
+        .sun, .moon, .sun-icon, .moon-icon { transition: transform 0.6s cubic-bezier(0.45,0.05,0.55,0.95), opacity 0.6s; transform-origin: center; }
+        [data-theme="dark"] .sun { transform: rotate(0deg) scale(1); opacity:1; }
+        [data-theme="dark"] .moon { transform: rotate(45deg) scale(0); opacity:0; }
+        [data-theme="light"] .sun { transform: rotate(90deg) scale(0); opacity:0; }
+        [data-theme="light"] .moon { transform: rotate(0deg) scale(1); opacity:1; }
     </style>
 </head>
 <body data-theme="dark">
